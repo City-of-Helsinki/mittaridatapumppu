@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  devreg:
+    build: .
+    command: python /project/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/project
+      - media:/media
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    networks:
+      - dockernet
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - dockernet
+
+
+volumes:
+ postgres_data:
+ media:
+
+networks:
+  dockernet:
+    name: MDP_network

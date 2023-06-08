@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+
+  devreg:
+    build: ../service-deviceregistry
+    volumes:
+      - media:/media
+    ports:
+      - 8000:8000
+    container_name: deviceregistry
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+
+volumes:
+ postgres_data:
+ media:
