@@ -1,3 +1,4 @@
+System Test
 
 
 # Prerequisites
@@ -22,11 +23,33 @@ pip install -r requirements.txt
 
 ## set up services
 
-### Verify endpoint service is up
+```
+docker-compose up --build -d
+```
+
 
 ###  Get deviceregstry up and functional
 
-### API connection
+```
+docker-compose exec devreg python manage.py migrate
+docker-compose exec devreg python manage.py createsuperuser
+<Configure user to your satisfaction>
+<Verify that you can login at 127.0.0.1:8000/admin/ >
+```
+
+### Access Tokens
+
+Go to http://127.0.0.1:8000/admin/authtoken/tokenproxy/
+and create a new token for your user.
+Then you can use the token to access the API, e.g.
+
+```
+http -v GET http://127.0.0.1:8000/api/v1/users/ "Authorization: Token abcs1234bacbbacb12431232123"
+```
+
+### Verify endpoint service is up
+
+
 
 ### Populate Database
 

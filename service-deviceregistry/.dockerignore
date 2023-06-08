@@ -1,0 +1,6 @@
+*
+!deviceregistry/
+!endpoints/
+!devices/
+!manage.py
+!requirements.txt
