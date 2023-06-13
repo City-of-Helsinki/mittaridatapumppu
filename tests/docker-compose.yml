@@ -28,6 +28,36 @@ services:
       DEBUG: 0
 
 
+
+  parser-digita:
+    build:
+      context: ../service-parser
+    depends_on:
+      kafka:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    environment:
+      ALLOWED_IP_ADDRESSES: "127.0.0.1"
+      AUTH_TOKEN: "abcd1234"
+      DATA_SOURCE_NAME: "digita.thingpark.http"
+      ENDPOINT_PATH: "/digita/v2"
+      HTTP_REQUESTHANDLER: "endpoints.digita.aiothingpark"
+      KAFKA_HOST: "kafka"
+      KAFKA_PORT: 9092
+      KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+      KAFKA_GROUP_ID: "digita_dev"
+      KAFKA_PARSED_DATA_TOPIC_NAME: "digita.parseddata"
+      KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
+      LOG_LEVEL: "DEBUG"
+      DEBUG: 1
+      DEVICE_REGISTRY_URL: "http://devreg:8000/api/v1"
+      DEVICE_REGISTRY_TOKEN: 551495354f6ddd09d7fc871bdefa58737ad23389
+    container_name: parser-digita
+
+
+
   kafka:
     image: docker.io/bitnami/kafka:3.4
     ports:

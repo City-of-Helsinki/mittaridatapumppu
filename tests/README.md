@@ -22,6 +22,7 @@ pip install -r requirements.txt
 
 
 ## set up services
+In tests dir:
 
 ```
 docker-compose up --build -d
@@ -69,6 +70,19 @@ docker-compose exec endpoint-digita python -m pytest tests/test_api.py
 ```
 ### Populate Database
 
+```
+python ../deviceregistry/devices/scripts/populate_db_via_api.py --api-url http://127.0.0.1:8000/api/v1/ --api-token <access-token> --csv-file <csv-file-path>
+```
+
+
+
 ### Update device registry access token to parser service
+
+update access token for environment variable  DEVICE_REGISTRY_TOKEN: <access token>  in docker-compose.yml and rebuild parser service
+
+```
+docker-compose up -d --build parser-digita
+```
+
 
 ### verify post call to endpoint goes through other services
