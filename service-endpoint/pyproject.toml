@@ -9,17 +9,13 @@ requires-python = ">=3.9"
 dynamic = ["version"]
 
 dependencies = [
-  # "aiohttp",
   "aiokafka",
-  # "aioredis",
   "fastapi",
   "fvhiot@https://github.com/ForumViriumHelsinki/FVHIoT-python/archive/refs/heads/master.zip",
   "kafka-python",
-  # "msgpack",
   "python-multipart",
   "sentry-asgi",
   "uvicorn",
-  # "xmltodict",
 ]
 
 [project.optional-dependencies]
@@ -38,3 +34,7 @@ dev = [
   "pytest-asyncio",
   "pytest-cov",
 ]
+test = [
+    "pytest",
+    "requests"
+] #pip-compile --resolver=backtracking --extra test pyproject.toml

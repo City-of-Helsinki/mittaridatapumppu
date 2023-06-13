@@ -1,3 +1,6 @@
+version: '3.8'
+
+
 
 services:
 
@@ -21,8 +24,8 @@ services:
       KAFKA_GROUP_ID: "digita_dev"
       KAFKA_PARSED_DATA_TOPIC_NAME: "digita.parseddata"
       KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
-      LOG_LEVEL: "DEBUG"
-      DEBUG: 1
+      LOG_LEVEL: "INFO"
+      DEBUG: 0
 
 
   kafka:

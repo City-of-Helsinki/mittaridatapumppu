@@ -36,7 +36,12 @@ docker-compose exec devreg python manage.py createsuperuser
 <Configure user to your satisfaction>
 <Verify that you can login at 127.0.0.1:8000/admin/ >
 ```
-
+#### to run device registry tests:
+```
+          docker-compose exec devreg python manage.py test devices/tests
+          docker-compose exec devreg pytest devices/tests/test_api_device.py
+          docker-compose exec devreg pytest devices/tests/test_api_devicetype.py
+```
 ### Access Tokens
 
 Go to http://127.0.0.1:8000/admin/authtoken/tokenproxy/
@@ -58,7 +63,10 @@ run script thats send post request with auth token (test token) and verify a  'H
 ```
 sh 70B3D50123456789.sh
 ```
-
+#### to run endpoint tests:
+```
+docker-compose exec endpoint-digita python -m pytest tests/test_api.py
+```
 ### Populate Database
 
 ### Update device registry access token to parser service
