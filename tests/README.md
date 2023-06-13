@@ -49,7 +49,15 @@ http -v GET http://127.0.0.1:8000/api/v1/users/ "Authorization: Token abcs1234ba
 
 ### Verify endpoint service is up
 
+access the web interface at http://127.0.0.1:8001/digita/v2
 
+If it works, you should see a message `Missing or invalid authentication token`.
+
+run script thats send post request with auth token (test token) and verify a  'HTTP/1.1 202 Accepted' response
+
+```
+sh 70B3D50123456789.sh
+```
 
 ### Populate Database
 

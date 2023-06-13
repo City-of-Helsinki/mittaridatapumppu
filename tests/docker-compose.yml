@@ -1,9 +1,49 @@
-version: "3"
 
 services:
 
+  endpoint-digita:
+    build:
+      context: ../service-endpoint
+    ports:
+      - "8001:8000"
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      ALLOWED_IP_ADDRESSES: "127.0.0.1"
+      AUTH_TOKEN: "abcd1234"
+      DATA_SOURCE_NAME: "digita.thingpark.http"
+      ENDPOINT_PATH: "/digita/v2"
+      HTTP_REQUESTHANDLER: "endpoints.digita.aiothingpark"
+      KAFKA_HOST: "kafka"
+      KAFKA_PORT: 9092
+      KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+      KAFKA_GROUP_ID: "digita_dev"
+      KAFKA_PARSED_DATA_TOPIC_NAME: "digita.parseddata"
+      KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
+      LOG_LEVEL: "DEBUG"
+      DEBUG: 1
+
+
+  kafka:
+    image: docker.io/bitnami/kafka:3.4
+    ports:
+      - "9092:9092"
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
+    healthcheck:
+      interval: 10s
+      retries: 3
+      test: kafka-topics.sh --bootstrap-server kafka:9092 --topic hc --create --if-not-exists && kafka-topics.sh --bootstrap-server kafka:9092 --topic hc --describe
+      timeout: 5s
+
   devreg:
     build: ../service-deviceregistry
+    environment:
+      DJANGO_SETTINGS_MODULE: "deviceregistry.settings"
     volumes:
       - media:/media
     ports:
@@ -24,3 +64,4 @@ services:
 volumes:
  postgres_data:
  media:
+ kafka_data:
