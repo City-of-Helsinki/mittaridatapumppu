@@ -12,7 +12,7 @@ dependencies = [
   "httpx",
   "aiokafka",
   "isodate",
-  "fvhiot@https://github.com/ForumViriumHelsinki/FVHIoT-python/archive/refs/heads/master.zip",
+  "fvhiot@https://github.com/ForumViriumHelsinki/FVHIoT-python/archive/refs/tags/v0.3.1.zip",
   "kafka-python",
   "msgpack",
   "pydantic",
