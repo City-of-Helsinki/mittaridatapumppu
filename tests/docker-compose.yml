@@ -67,6 +67,7 @@ services:
     environment:
       ALLOW_PLAINTEXT_LISTENER: "yes"
       KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
+      #KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://0.0.0.0:9092
     healthcheck:
       interval: 10s
       retries: 3
