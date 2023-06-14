@@ -68,6 +68,7 @@ sh 70B3D50123456789.sh
 ```
 docker-compose exec endpoint-digita python -m pytest tests/test_api.py
 ```
+test makes sure that an auntheticated post request to the /digita/v2 returns a HTTP 202 response
 ### Populate Database
 
 ```
@@ -83,6 +84,24 @@ update access token for environment variable  DEVICE_REGISTRY_TOKEN: <access tok
 ```
 docker-compose up -d --build parser-digita
 ```
+#### to run parser tests:
+```
+docker-compose exec parser-digita python -m pytest tests/test_digita_sensornode.py
+```
+test reads the parsed data from kafka and verifies that it contains the right data and meta data
 
+### To verify post call to endpoint goes through other services from logs
+run script and verify a  'HTTP/1.1 202 Accepted' response
 
-### verify post call to endpoint goes through other services
+```
+sh 70B3D50123456789.sh
+```
+verify from device registry logs that metadata has been requested and it was succesfull -
+```
+docker logs deviceregistry
+```
+
+verify from parser-digita logs that metadata is received
+```
+docker logs parser-digita
+```

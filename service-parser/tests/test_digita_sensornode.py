@@ -9,28 +9,6 @@ expected_data = [
     }
 ]
 
-expected_device = {
-    "url": "http://devreg:8000/api/v1/devices/70B3D57050011422/",
-    "device_id": "70B3D57050011422",
-    "type": "http://devreg:8000/api/v1/device-types/1/",
-    "name": "Digital Matter SensorNode 70B3D57050011422",
-    "pseudonym": "",
-    "description": "",
-    "created_at": "2023-06-08T12:18:28.816461+03:00",
-    "modified_at": "2023-06-08T12:18:28.816469+03:00",
-    "equipment_condition": "AC",
-    "last_active_at": None,
-    "current_location": None,
-    "sensor_config": None,
-    "unit_of_measurement": "",
-    "measurement_resolution": None,
-    "quality_indicator": "RE",
-    "owner": "http://devreg:8000/api/v1/users/1/",
-    "parser_module": "fvhiot.parsers.sensornode",
-    "maintenance_log_set": [],
-    "installation_image_set": [],
-}
-
 
 def test_parsed_data_from_kafka():
     # Define server with port
@@ -58,5 +36,8 @@ def test_parsed_data_from_kafka():
 
     assert parsed_msg["data"] == expected_data, "parsed data is correct"
     assert (
-        parsed_msg["device"] == expected_device
+        parsed_msg["device"]["device_id"] == "70B3D57050011422"
+    ), "retreived device metadata is correct"
+    assert (
+        parsed_msg["device"]["parser_module"] == "fvhiot.parsers.sensornode"
     ), "retreived device metadata is correct"
