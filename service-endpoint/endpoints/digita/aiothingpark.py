@@ -11,7 +11,8 @@ class RequestHandler(AsyncRequestHandler):
         request_data: dict,
     ) -> Tuple[bool, Union[str, None], Union[int, None]]:
         """
-        Use Starlette request_data here to determine should we accept or reject this request
+        Use Starlette request_data here to determine should we accept or reject
+        this request
         :param request_data: deserialized (FastAPI) Starlette Request
         :return: (bool ok, str error text, int status code)
         """
@@ -76,7 +77,8 @@ class RequestHandler(AsyncRequestHandler):
         return auth_ok, device_id, topic_name, response_message, status_code
 
     async def get_metadata(self, request_data: dict, device_id: str) -> str:
-        # TODO: put this function to BaseRequestHandler or remove from endpoint (and add to parser)
+        # TODO: put this function to BaseRequestHandler or remove from endpoint
+        # (and add to parser)
         metadata = "{}"
         redis_url = os.getenv("REDIS_URL")
         if redis_url is None:

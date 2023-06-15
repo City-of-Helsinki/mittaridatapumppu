@@ -11,7 +11,8 @@ class RequestHandler(AsyncRequestHandler):
         request_data: dict,
     ) -> Tuple[bool, Union[str, None], Union[int, None]]:
         """
-        Use Starlette request_data here to determine should we accept or reject this request
+        Use Starlette request_data here to determine should we accept or reject
+        this request
         :param request_data: deserialized Starlette Request
         :return: (bool ok, str error text, int status code)
         """
@@ -19,7 +20,8 @@ class RequestHandler(AsyncRequestHandler):
         endpoint_path = os.getenv("ENDPOINT_PATH")
         if request_data["path"] not in [endpoint_path]:
             return False, "Not found", 404
-        # Reject requests without token parameter, which can be in query string or http header
+        # Reject requests without token parameter, which can be in query string
+        # or http header
         api_token = request_data["request"]["get"].get("token")
         if api_token is None:
             api_token = request_data["request"]["headers"].get("x-api-key")

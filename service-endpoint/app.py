@@ -74,9 +74,11 @@ async def api_v1(request: Request) -> Response:
                 on_send_error(e)
         else:
             logging.error(
-                f'Failed to send "{path}" data to {topic_name}, producer was not initialised'
+                f'Failed to send "{path}" data to {topic_name}, producer was '
+                f'not initialised'
             )
-            # Endpoint process has failed and no data was sent to Kafka. This is a fatal error.
+            # Endpoint process has failed and no data was sent to Kafka. This
+            # is a fatal error.
             response_message, status_code = "Internal server error", 500
     else:
         logging.info("No action: topic_name is not defined")
@@ -92,7 +94,8 @@ async def catch_all(request: Request) -> Response:
 async def startup():
     """
     Create KafkaProducer.
-    TODO: Test external connections here, e.g. device registry, redis etc. and crash if some mandatory
+    TODO: Test external connections here, e.g. device registry, redis etc. and
+    crash if some mandatory
     service is missing.
     """
     global app
