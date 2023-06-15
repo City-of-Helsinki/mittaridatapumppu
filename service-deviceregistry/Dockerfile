@@ -1,32 +1,25 @@
-# pull official base image
-FROM python:3.11.3-slim
+FROM python:3.11-alpine
 
-# create directory for the app user
-RUN mkdir -p /project
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# create the app user
-RUN addgroup --system app && adduser --system --group app
-
-ENV APP_HOME=/home/app
-WORKDIR $APP_HOME
-
-# copy project
-COPY . $APP_HOME
-
-# install dependencies
-COPY requirements.txt .
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
-
-# chown all the files to the app user
-RUN chown -R app:app $APP_HOME
-
-#give permission to store media
-RUN chown -R app:app /media
-
-# change to the app user
-USER app
-
+ENV DATABASE_NAME=postgres
+ENV DATABASE_USER=postgres
+ENV DATABASE_PASSWORD=postgres
+ENV DATABASE_HOST=db
+ENV DATABASE_PORT=5432
+ENV MEDIA_HOME=/media
 ENV DJANGO_SETTINGS_MODULE=deviceregistry.settings
+
+RUN addgroup -S app && adduser -S app -G app
+USER app
+WORKDIR /home/app
+
+# Copy and install requirements only first to cache the dependency layer
+COPY --chown=app:app requirements.txt .
+RUN pip install --no-cache-dir --no-compile --upgrade -r requirements.txt
+
+COPY --chown=app:app . .
+
 # start django server
-CMD python manage.py runserver 0.0.0.0:8000
+CMD ["python", "./manage.py", "runserver", "0.0.0.0:8000"]
