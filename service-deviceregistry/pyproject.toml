@@ -1,3 +1,29 @@
+[tool.setuptools]
+py-modules = []
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mittaridataputki-deviceregistry"
+description = ""
+readme = "README.md"
+requires-python = ">=3.9"
+dynamic = ["version"]
+
+dependencies = [
+  "django-environ",
+  "Django == 4.2.1, < 5.0",
+  "Pillow",
+  "django-rest-framework",
+  "psycopg2-binary",
+  "pytest",
+  "pytest-django",
+  "sqlparse",
+  "unittest-parametrize",
+]
+
 [tool.black]
 line-length = 120
 target-version = ['py39', 'py310', 'py311']
