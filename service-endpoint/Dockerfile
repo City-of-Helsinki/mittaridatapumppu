@@ -1,11 +1,9 @@
-# FROM python:3.11-slim-bullseye
 FROM python:3.11-alpine
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 RUN addgroup -S app && adduser -S app -G app
-# RUN groupadd -r app && useradd --no-log-init -r -g app app
 USER app
 WORKDIR /home/app
 
