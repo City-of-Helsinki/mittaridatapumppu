@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 site_name = "testserver"
-rootfolder = "/project"
 
 
 @pytest.fixture(scope="function")
@@ -162,7 +161,7 @@ def test_api_v1_device_add_installation_image(authenticated_client) -> None:
     device_url = response_post.data["url"]
     assert device_url == "http://testserver/api/v1/devices/id1234/"
 
-    file = f"{rootfolder}/devices/tests/testresources/testimage.jpeg"
+    file = "devices/tests/testresources/testimage.jpeg"
     image_payload = {
         "image": (open(file, "rb"), file),
         "description": "test fleet",
