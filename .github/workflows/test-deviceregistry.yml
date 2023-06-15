@@ -1,3 +1,4 @@
+# This is a basic workflow to help you get started with Actions
 
 name: CI
 
@@ -6,6 +7,7 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
+    tags: [ "v*" ]
   pull_request:
     branches: [ "main" ]
 
@@ -15,20 +17,59 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build-and-test:
+  tests:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    defaults:
+      run:
+        working-directory: service-deviceregistry
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+    env:
+      DJANGO_SETTINGS_MODULE: "deviceregistry.settings"
+    services:
+      # Label used to access the service container
+      db:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Tests run directly on the runner so we have to map the port
+          - 5432:5432
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      - name: Install dependencies
         run: |
-          cd service-deviceregistry
-          docker-compose up --build -d
-          docker-compose exec -T devreg python manage.py test devices/tests
-          docker-compose exec -T devreg pytest devices/tests/test_api_device.py
-          docker-compose exec -T devreg pytest devices/tests/test_api_devicetype.py
+          python -m pip install --upgrade pip setuptools wheel
+          pip install ruff pytest
+          pip install -r requirements.txt
+      - name: Lint with ruff
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          ruff --format=github --select=E9,F63,F7,F82 --target-version=py37 .
+          # default set of ruff rules with GitHub Annotations
+          ruff --format=github --target-version=py37 .
+      - name: Test with pytest
+        env:
+          DATABASE_HOST: localhost
+          DATABASE_PORT: 5432
+          MEDIA_ROOT: /tmp
+          PYTEST_ADDOPTS: "--color=yes"
+        run: |
+          python manage.py test devices/tests
+          pytest devices/tests/test_api_device.py
+          pytest devices/tests/test_api_devicetype.py
