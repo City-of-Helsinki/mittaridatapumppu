@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: service-parser
+        working-directory: service-endpoint
 
     permissions:
       contents: read
