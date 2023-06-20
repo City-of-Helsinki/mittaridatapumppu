@@ -52,9 +52,9 @@ jobs:
           DATA_SOURCE_NAME: "digita.thingpark.http"
           ENDPOINT_PATH: "/digita/v2"
           HTTP_REQUESTHANDLER: "endpoints.digita.aiothingpark"
-          KAFKA_HOST: "localhost"
+          KAFKA_HOST: "kafka"
           KAFKA_PORT: 9092
-          KAFKA_BOOTSTRAP_SERVERS: "localhost:9092"
+          KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
           KAFKA_GROUP_ID: "digita_dev"
           KAFKA_PARSED_DATA_TOPIC_NAME: "digita.parseddata"
           KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
