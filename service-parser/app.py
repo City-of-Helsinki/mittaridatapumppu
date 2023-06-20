@@ -70,14 +70,16 @@ def get_device_data_devreg(device_id: str) -> dict:
     devreg_token = os.getenv("DEVICE_REGISTRY_TOKEN")
     if devreg_url is None or devreg_token is None:
         logging.error(
-            "DEVICE_REGISTRY_URL and DEVICE_REGISTRY_TOKEN must be defined, querying device metadata failed"
+            "DEVICE_REGISTRY_URL and DEVICE_REGISTRY_TOKEN must be defined, "
+            "querying device metadata failed"
         )
         return metadata
     if device_id is None:
         logging.info("No device_id available, querying device metadata failed")
         return metadata
-    # NOTE: creating redis client is very cheap operation, but perhaps it should be benchmarked?
-    # Another solution would be to create client once (like kafka consumer) and re-using it in subsequent calls
+    # NOTE: creating redis client is very cheap operation, but perhaps it
+    # should be benchmarked? Another solution would be to create client once
+    # (like kafka consumer) and re-using it in subsequent calls
     url = f"{devreg_url}/devices/{device_id}/"
     logging.info(f"Querying metadata from {url}")
     # Get metadata from device registry using httpx
@@ -242,7 +244,8 @@ def main():
             continue
 
         logging.info(
-            f"Trying to parse hex payload {uplink_obj.payload_hex} with {parser_module_name}"
+            f"Trying to parse hex payload {uplink_obj.payload_hex} with "
+            f"{parser_module_name}"
         )
         try:
             parser_module = importlib.import_module(parser_module_name)
