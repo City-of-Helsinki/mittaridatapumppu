@@ -60,6 +60,11 @@ jobs:
           KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
           LOG_LEVEL: "DEBUG"
           DEBUG: 1
+        options: >-
+          --health-cmd "curl --fail http://localhost:8000"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
         ports:
           # Tests run directly on the runner so we have to map the port
           - 8000:8000
