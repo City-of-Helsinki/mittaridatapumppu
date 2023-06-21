@@ -10,7 +10,7 @@ endpoint:
     pullPolicy: Always
     # pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "v0.1.0"
+    tag: "v0.1.1"
   service:
     type: ClusterIP
     port: 80
@@ -27,7 +27,7 @@ deviceregistry:
     pullPolicy: Always
     # pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "v0.1.0"
+    tag: "v0.1.1"
   service:
     type: ClusterIP
     port: 80
@@ -46,7 +46,7 @@ parser:
     # pullPolicy: IfNotPresent
     pullPolicy: Always
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "v0.1.0"
+    tag: "v0.1.1"
   service:
     type: ClusterIP
     port: 80
@@ -54,9 +54,9 @@ parser:
   deviceRegistryToken: "1e172012b4404fc4b3d051710f8232a422fa8eaa"
 
 kafka:
-  kafkaHost: "kafka"
+  kafkaHost: "kafka-kafka-bootstrap"
   kafkaPort: "9092"
-  kafkaBootstrapServers: "kafka:9092"
+  kafkaBootstrapServers: "kafka-kafka-bootstrap:9092"
   kafkaGroupId: "digita_dev"
   kafkaParsedDataTopicName: "digita.parseddata"
   kafkaRawDataTopicName: "digita.rawdata"

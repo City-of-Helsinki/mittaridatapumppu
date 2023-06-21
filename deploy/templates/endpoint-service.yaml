@@ -8,7 +8,7 @@ spec:
   type: {{ .Values.endpoint.service.type }}
   ports:
     - port: {{ .Values.endpoint.service.port }}
-      targetPort: http
+      targetPort: 8000
       protocol: TCP
       name: http
   selector:
