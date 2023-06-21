@@ -1,5 +1,6 @@
 # Import KafkaConsumer from Kafka library
 from kafka import KafkaConsumer
+import os
 import msgpack
 
 expected_data = [
@@ -12,7 +13,7 @@ expected_data = [
 
 def test_parsed_data_from_kafka():
     # Define server with port
-    BOOTSTRAP_SERVERS = ["kafka:9092"]
+    KAFKA_BOOTSTRAP_SERVERS = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
 
     # Define topic name from where the message will recieve
     KAFKA_PARSED_DATA_TOPIC_NAME = "digita.parseddata"
@@ -20,7 +21,7 @@ def test_parsed_data_from_kafka():
     # Initialize consumer variable and subscribe to parsed data topic
     consumer = KafkaConsumer(
         KAFKA_PARSED_DATA_TOPIC_NAME,
-        bootstrap_servers=BOOTSTRAP_SERVERS,
+        bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS,
         auto_offset_reset="earliest",
         value_deserializer=lambda m: msgpack.unpackb(m),
     )
