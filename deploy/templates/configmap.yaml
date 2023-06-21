@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mittaridatapumppu.fullname" . }}-configmap
+data:
+  ALLOWED_IP_ADDRESSES: "{{ .Values.endpoint.allowedIpAddresses }}"
+  AUTH_TOKEN: "{{ .Values.endpoint.authToken }}"
+  DATA_SOURCE_NAME: "{{ .Values.endpoint.dataSourceName }}"
+  ENDPOINT_PATH: "{{ .Values.endpoint.endpointPath }}"
+  HTTP_REQUESTHANDLER: "{{ .Values.endpoint.httpRequestHandler }}"
+  KAFKA_HOST: "{{ .Values.kafka.kafkaHost }}"
+  KAFKA_PORT: "{{ .Values.kafka.kafkaPort }}"
+  KAFKA_BOOTSTRAP_SERVERS: "{{ .Values.kafka.kafkaBootstrapServers }}"
+  KAFKA_GROUP_ID: "{{ .Values.kafka.kafkaGroupId }}"
+  KAFKA_PARSED_DATA_TOPIC_NAME: "{{ .Values.kafka.kafkaParsedDataTopicName }}"
+  KAFKA_RAW_DATA_TOPIC_NAME: "{{ .Values.kafka.kafkaRawDataTopicName }}"
+  DEVICE_REGISTRY_URL: "{{ .Values.parser.deviceRegistryUrl }}"
+  DEVICE_REGISTRY_TOKEN: "{{ .Values.parser.deviceRegistryToken }}"
+  DATABASE_HOST: "{{ .Release.Name }}-{{ .Values.deviceregistry.databaseHost }}"
+  DATABASE_USER: "{{ .Values.deviceregistry.databaseUser }}"
+  DATABASE_PASSWORD: "{{ .Values.deviceregistry.databasePassword }}"
+  DATABASE_PORT: "{{ .Values.deviceregistry.databasePort }}"
+  ALLOWED_HOSTS: "{{ .Values.deviceregistry.allowedHosts | toStrings }}"
+  SECRET_KEY: "{{ .Values.deviceregistry.secretKey }}"
