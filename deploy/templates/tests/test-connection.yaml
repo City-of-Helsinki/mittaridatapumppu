@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "mittaridatapumppu.fullname" . }}-endpoint-test-connection"
+  labels:
+    {{- include "mittaridatapumppu.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "mittaridatapumppu.fullname" . }}-endpoint:{{ .Values.endpoint.service.port }}']
+  restartPolicy: Never
