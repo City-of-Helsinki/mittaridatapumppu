@@ -105,4 +105,5 @@ jobs:
           UVICORN_LOG_LEVEL: "DEBUG"
         run: |
           tests/70B3D50123456789.sh
+          python app.py &
           pytest -v tests/test_digita_sensornode.py
