@@ -1,0 +1,6 @@
+device_id,active,lat,lon,parser_module,type,name,description
+A81758FFFE0357CB,,,,fvhiot.parsers.elsys,Elsys standard,Elsys ERS CO2 A81758FFFE0357CB,FVH Ilmastoviisaat RP
+70B3D57050011439,1,,,fvhiot.parsers.sensornode,Digital Matter SensorNode standard,Digital Matter SensorNode 70B3D57050011439,Batch 2023-04
+9900F2BBCCB4EE20,1,"60,19402","24,98481",fvhiot.parsers.iotpetri,Petri's paxcounter,Petri's paxcounter,2022-06-15
+70B3D57050011404,,"60,17023","25,03808",fvhiot.parsers.sensornode,Digital Matter SensorNode standard,"R4C Sensornode 1404, Rudolfintie 19",
+56B6789246B84A01,,,,fvhiot.parsers.paxcounter,ESP32 PAXCOUNTER,PAXCOUNTER 01/2023,broker.fvh.io

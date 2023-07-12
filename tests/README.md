@@ -37,11 +37,21 @@ docker-compose exec devreg python manage.py createsuperuser
 <Configure user to your satisfaction>
 <Verify that you can login at 127.0.0.1:8000/admin/ >
 ```
+
+### Load initial data to deviceregistry
+
+This loads authtoken.token, which is also configured in docker-compose.yml
+and some test devices.
+
+```
+docker-compose exec devreg python manage.py loaddata devices/fixtures/initialdata.json
+```
+
 #### to run device registry tests:
 ```
-          docker-compose exec devreg python manage.py test devices/tests
-          docker-compose exec devreg pytest devices/tests/test_api_device.py
-          docker-compose exec devreg pytest devices/tests/test_api_devicetype.py
+docker-compose exec devreg python manage.py test devices/tests
+docker-compose exec devreg pytest devices/tests/test_api_device.py
+docker-compose exec devreg pytest devices/tests/test_api_devicetype.py
 ```
 ### Access Tokens
 

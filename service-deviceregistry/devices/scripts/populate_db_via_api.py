@@ -18,6 +18,11 @@ def get_device_type():
     """Check if one device type exists, if not create it and return URL."""
     url = "{}/device-types/".format(args.api_url.rstrip("/"))
     r = httpx.get(url, headers=headers)
+    if r.status_code != 200:
+        print("Failed to get device types")
+        print(r.status_code)
+        print(r.text)
+        exit(1)
     r_data = r.json()
     if r_data["count"] > 0:
         return r_data["results"][0]["url"]
