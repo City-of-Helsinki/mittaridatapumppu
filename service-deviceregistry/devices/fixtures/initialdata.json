@@ -1,0 +1,148 @@
+[
+{
+  "model": "authtoken.token",
+  "pk": "b48455759b691baf3b811ba437ce9e581fc0a37e",
+  "fields": {
+    "user": 1,
+    "created": "2023-07-12T12:04:38.818Z"
+  }
+},
+{
+  "model": "devices.devicetype",
+  "pk": 1,
+  "fields": {
+    "name": "Placeholder",
+    "description": "Placeholder device type",
+    "additional_data_json": null,
+    "created_at": "2023-07-12T14:06:37.132Z",
+    "modified_at": "2023-07-12T14:06:37.132Z",
+    "processors": [],
+    "documents": []
+  }
+},
+{
+  "model": "devices.device",
+  "pk": 1,
+  "fields": {
+    "device_id": "A81758FFFE0357CB",
+    "type": 1,
+    "name": "Elsys ERS CO2 A81758FFFE0357CB",
+    "pseudonym": "",
+    "description": "",
+    "last_active_at": null,
+    "current_location": null,
+    "lat": null,
+    "lon": null,
+    "sensor_config": null,
+    "parser_module": "fvhiot.parsers.elsys",
+    "additional_data_json": null,
+    "unit_of_measurement": "",
+    "measurement_resolution": null,
+    "quality_indicator": "RE",
+    "equipment_condition": "AC",
+    "owner": 1,
+    "created_at": "2023-07-12T14:06:37.199Z",
+    "modified_at": "2023-07-12T14:06:47.628Z"
+  }
+},
+{
+  "model": "devices.device",
+  "pk": 2,
+  "fields": {
+    "device_id": "70B3D57050011439",
+    "type": 1,
+    "name": "Digital Matter SensorNode 70B3D57050011439",
+    "pseudonym": "",
+    "description": "",
+    "last_active_at": null,
+    "current_location": null,
+    "lat": null,
+    "lon": null,
+    "sensor_config": null,
+    "parser_module": "fvhiot.parsers.sensornode",
+    "additional_data_json": null,
+    "unit_of_measurement": "",
+    "measurement_resolution": null,
+    "quality_indicator": "RE",
+    "equipment_condition": "AC",
+    "owner": 1,
+    "created_at": "2023-07-12T14:06:37.254Z",
+    "modified_at": "2023-07-12T14:06:47.691Z"
+  }
+},
+{
+  "model": "devices.device",
+  "pk": 3,
+  "fields": {
+    "device_id": "9900F2BBCCB4EE20",
+    "type": 1,
+    "name": "Petri's paxcounter",
+    "pseudonym": "",
+    "description": "",
+    "last_active_at": null,
+    "current_location": null,
+    "lat": null,
+    "lon": null,
+    "sensor_config": null,
+    "parser_module": "fvhiot.parsers.iotpetri",
+    "additional_data_json": null,
+    "unit_of_measurement": "",
+    "measurement_resolution": null,
+    "quality_indicator": "RE",
+    "equipment_condition": "AC",
+    "owner": 1,
+    "created_at": "2023-07-12T14:06:37.300Z",
+    "modified_at": "2023-07-12T14:06:47.742Z"
+  }
+},
+{
+  "model": "devices.device",
+  "pk": 4,
+  "fields": {
+    "device_id": "70B3D57050011404",
+    "type": 1,
+    "name": "R4C Sensornode 1404, Rudolfintie 19",
+    "pseudonym": "",
+    "description": "",
+    "last_active_at": null,
+    "current_location": null,
+    "lat": null,
+    "lon": null,
+    "sensor_config": null,
+    "parser_module": "fvhiot.parsers.sensornode",
+    "additional_data_json": null,
+    "unit_of_measurement": "",
+    "measurement_resolution": null,
+    "quality_indicator": "RE",
+    "equipment_condition": "AC",
+    "owner": 1,
+    "created_at": "2023-07-12T14:06:37.347Z",
+    "modified_at": "2023-07-12T14:06:47.792Z"
+  }
+},
+{
+  "model": "devices.device",
+  "pk": 5,
+  "fields": {
+    "device_id": "56B6789246B84A01",
+    "type": 1,
+    "name": "PAXCOUNTER 01/2023",
+    "pseudonym": "",
+    "description": "",
+    "last_active_at": null,
+    "current_location": null,
+    "lat": null,
+    "lon": null,
+    "sensor_config": null,
+    "parser_module": "fvhiot.parsers.paxcounter",
+    "additional_data_json": null,
+    "unit_of_measurement": "",
+    "measurement_resolution": null,
+    "quality_indicator": "RE",
+    "equipment_condition": "AC",
+    "owner": 1,
+    "created_at": "2023-07-12T14:06:37.395Z",
+    "modified_at": "2023-07-12T14:06:47.841Z"
+  }
+}
+]

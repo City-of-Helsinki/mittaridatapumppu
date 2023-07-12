@@ -6,15 +6,15 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mittaridataputki-deviceregistry"
+name = "mittaridatapumppu-deviceregistry"
 description = ""
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dynamic = ["version"]
 
 dependencies = [
   "django-environ",
-  "Django == 4.2.1, < 5.0",
+  "Django >= 4.2.3, < 5.0",
   "Pillow",
   "django-rest-framework",
   "psycopg2-binary",
@@ -26,7 +26,7 @@ dependencies = [
 
 [tool.black]
 line-length = 120
-target-version = ['py39', 'py310', 'py311']
+target-version = ['py310', 'py311']
 exclude = '''
 (
   migrations         # migrations are automatically generated and should we excluded

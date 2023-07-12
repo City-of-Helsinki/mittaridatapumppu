@@ -44,11 +44,37 @@ services:
       KAFKA_PARSED_DATA_TOPIC_NAME: "digita.parseddata"
       KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
       DEVICE_REGISTRY_URL: "http://devreg:8000/api/v1"
-      DEVICE_REGISTRY_TOKEN: 551495354f6ddd09d7fc871bdefa58737ad23389
+      DEVICE_REGISTRY_TOKEN: b48455759b691baf3b811ba437ce9e581fc0a37e
       LOG_LEVEL: "DEBUG"
       DEBUG: 1
       DEV_SERVER: 1
     container_name: parser-digita
+
+  persister-influxdb:
+    image: forumviriumhelsinki/mittaridatapumppu-persister
+    build:
+      context: ../service-persister
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart: unless-stopped
+    environment:
+      KAFKA_HOST: "kafka"
+      KAFKA_PORT: 9092
+      KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+      KAFKA_GROUP_ID: "digita_dev"
+      KAFKA_PARSED_DATA_TOPIC_NAME: "digita.parseddata"
+      KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
+      DEVICE_REGISTRY_URL: "http://devreg:8000/api/v1"
+      DEVICE_REGISTRY_TOKEN: b48455759b691baf3b811ba437ce9e581fc0a37e
+      INFLUXDB_URL: "https://influx.fvh.io"
+      INFLUXDB_ORG: "Testing"
+      INFLUXDB_BUCKET: "DigitaTest"
+      INFLUXDB_TOKEN: "-DWlK7UjluBsFRgQ6ZTU82zfir89lAdY00hSvm-hhM-z2cmA-TwRekLj4C_KxU4jAU23H3vTkgGIQjqs68xHWg=="
+      LOG_LEVEL: "DEBUG"
+      DEBUG: 1
+      DEV_SERVER: 1
+    container_name: persister-influxdb
 
   kafka:
     image: docker.io/bitnami/kafka:3.4
@@ -69,18 +95,17 @@ services:
   devreg:
     image: forumviriumhelsinki/mittaridatapumppu-deviceregistry
     build: ../service-deviceregistry
-    environment:
-      DJANGO_SETTINGS_MODULE: "deviceregistry.settings"
     volumes:
       - media:/media
     ports:
-      - 8000:8000
+      - "8000:8000"
     environment:
+      DJANGO_SETTINGS_MODULE: "deviceregistry.settings"
       DATABASE_HOST:
       DATABASE_USER:
       DATABASE_PASSWORD:
       DATABASE_PORT:
-      DEBUG:
+      DEBUG: 1
       ALLOWED_HOSTS:
       SECRET_KEY:
 
@@ -100,6 +125,6 @@ services:
 
 
 volumes:
- postgres_data:
- media:
- kafka_data:
+  postgres_data:
+  media:
+  kafka_data:
