@@ -5,9 +5,6 @@ trigger:
   branches:
     include:
     - main
-    # other examples:
-    #- release/*
-    #- refs/tags/*
   paths:
     exclude:
     - README.md
@@ -45,6 +42,6 @@ extends:
   # Filename in Azure DevOps Repository (note possible -ui or -api)
   # Django example: azure-pipelines-PROJECTNAME-api-release.yml
   # Drupal example: azure-pipelines-drupal-release.yml
-  template: azure-pipelines-build-mittaridatapumppu-api.yml@mittaridatapumppu-pipelines
+  template: azure-pipelines-build-mittaridatapumppu-deviceregistry-devtest.yml@mittaridatapumppu-pipelines
   #parameters:
     #imagetag: ${{ parameters.imagetag }}
