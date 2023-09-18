@@ -8,10 +8,8 @@ on:
   push:
     branches: [ "main" ]
     tags: [ "v*" ]
-    paths: [ "service-deviceregistry/**" ]
   pull_request:
     branches: [ "main" ]
-    paths: [ "service-deviceregistry/**" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -22,9 +20,6 @@ jobs:
   tests:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: service-deviceregistry
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
