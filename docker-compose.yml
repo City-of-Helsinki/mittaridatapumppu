@@ -94,7 +94,7 @@ services:
 
   devreg:
     image: forumviriumhelsinki/mittaridatapumppu-deviceregistry
-    build: ../service-deviceregistry
+    build: .
     volumes:
       - media:/media
     ports:
