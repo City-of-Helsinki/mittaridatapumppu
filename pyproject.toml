@@ -13,8 +13,9 @@ requires-python = ">=3.10"
 dynamic = ["version"]
 
 dependencies = [
+  "django-auditlog",
   "django-environ",
-  "Django >= 4.2.3, < 5.0",
+  "Django >= 4.2.5, < 5.0",
   "Pillow",
   "django-rest-framework",
   "psycopg2-binary",
@@ -49,14 +50,14 @@ exclude = '''
 # force-exclude is for pre-commit
 force-exclude = '''
 (
-   devices/migrations                     # files in this dir are ignored
+   migrations                     # files in this dir are ignored
 )
 '''
 
 [tool.ruff]
 line-length = 120
 ignore-init-module-imports = true
-exclude = ["devices/migrations/*.py"]
+exclude = ["migrations"]
 
 # Enable Pyflakes `E` and `F` codes by default.
 select = ["E", "F"]
