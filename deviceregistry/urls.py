@@ -28,20 +28,22 @@ from devices.views import (
     StreamProcessorViewSet,
     DeviceTypeViewSet,
     MaintenanceLogViewSet,
+    OrganizationViewSet,
 )
-from endpoints.views import EndpointViewSet
+from endpoints.views import HostViewSet, EndpointViewSet
 
 
 router = routers.DefaultRouter()
 router.register(r"devices", DeviceViewSet)
-router.register(r"locations", LocationViewSet)
-router.register(r"users", UserViewSet)
-router.register(r"installation-images", InstallationImageViewSet)
-router.register(r"documents", DocumentViewSet)
-router.register(r"stream-processors", StreamProcessorViewSet)
 router.register(r"device-types", DeviceTypeViewSet)
+router.register(r"documents", DocumentViewSet)
+router.register(r"installation-images", InstallationImageViewSet)
+router.register(r"locations", LocationViewSet)
 router.register(r"maintenance-logs", MaintenanceLogViewSet)
-
+router.register(r"organizations", OrganizationViewSet)
+router.register(r"stream-processors", StreamProcessorViewSet)
+router.register(r"users", UserViewSet)
+router.register(r"hosts", HostViewSet)
 router.register(r"endpoints", EndpointViewSet)
 
 

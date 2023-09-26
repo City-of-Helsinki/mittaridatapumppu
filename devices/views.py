@@ -1,31 +1,33 @@
-from .models import (
-    Device,
-    Location,
-    InstallationImage,
-    Document,
-    StreamProcessor,
-    DeviceType,
-    MaintenanceLog,
-)
-from rest_framework import viewsets
+from django.contrib.auth.models import User
 from rest_framework import permissions
+from rest_framework import viewsets
 from rest_framework.authentication import (
     SessionAuthentication,
     BasicAuthentication,
     TokenAuthentication,
 )
 
+from .models import (
+    Device,
+    Location,
+    DeviceImage,
+    Document,
+    StreamProcessor,
+    DeviceType,
+    MaintenanceLog,
+    Organization,
+)
 from .serializers import (
     DeviceSerializer,
-    LocationSerializer,
-    UserSerializer,
-    InstallationImageSerializer,
-    DocumentSerializer,
-    StreamProcessorSerializer,
     DeviceTypeSerializer,
+    DocumentSerializer,
+    InstallationImageSerializer,
+    LocationSerializer,
     MaintenanceLogSerializer,
+    OrganizationSerializer,
+    StreamProcessorSerializer,
+    UserSerializer,
 )
-from django.contrib.auth.models import User
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -34,6 +36,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
 
     queryset = User.objects.all().order_by("-date_joined")
+    lookup_field = "username"  # Use username instead of pk
     serializer_class = UserSerializer
     permission_classes = [permissions.DjangoModelPermissions]
     authentication_classes = [
@@ -46,9 +49,11 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 class DeviceTypeViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows device types to be viewed or edited.
+    find device type by slug
     """
 
     queryset = DeviceType.objects.all()
+    lookup_field = "slug"  # Use slug instead of pk
     serializer_class = DeviceTypeSerializer
     permission_classes = [permissions.DjangoModelPermissions]
     authentication_classes = [
@@ -80,7 +85,24 @@ class LocationViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Location.objects.all()
+    lookup_field = "slug"  # Use slug instead of pk
     serializer_class = LocationSerializer
+    permission_classes = [permissions.DjangoModelPermissions]
+    authentication_classes = [
+        SessionAuthentication,
+        BasicAuthentication,
+        TokenAuthentication,
+    ]
+
+
+class OrganizationViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows locations to be viewed or edited.
+    """
+
+    queryset = Organization.objects.all()
+    lookup_field = "slug"  # Use slug instead of pk
+    serializer_class = OrganizationSerializer
     permission_classes = [permissions.DjangoModelPermissions]
     authentication_classes = [
         SessionAuthentication,
@@ -94,7 +116,7 @@ class InstallationImageViewSet(viewsets.ModelViewSet):
     API endpoint that allows installation images to be viewed or edited.
     """
 
-    queryset = InstallationImage.objects.all()
+    queryset = DeviceImage.objects.all()
     serializer_class = InstallationImageSerializer
     permission_classes = [permissions.DjangoModelPermissions]
     authentication_classes = [

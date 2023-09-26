@@ -106,8 +106,8 @@ def test_api_v1_device_post_all_fields(authenticated_client) -> None:
         "owner": "http://testserver/api/v1/users/1/",
         "unit_of_measurement": "m",
         "measurement_resolution": 0.1,
-        "installation_image_set": [],
-        "maintenance_log_set": [],
+        "images": [],
+        "logs": [],
         "last_active_at": "2021-01-01T00:00:00Z",
         "lat": 60.0,
         "lon": 24.0,
@@ -147,8 +147,8 @@ def test_api_v1_device_add_installation_image(authenticated_client) -> None:
         "owner": "http://testserver/api/v1/users/2/",
         "unit_of_measurement": "m",
         "measurement_resolution": 0.1,
-        "installation_image_set": [],
-        "maintenance_log_set": [],
+        "images": [],
+        "logs": [],
         "last_active_at": "2021-01-01T00:00:00Z",
         "lat": 60.0,
         "lon": 24.0,
@@ -173,4 +173,4 @@ def test_api_v1_device_add_installation_image(authenticated_client) -> None:
     image_url = response_post.data["url"]
 
     response_get = api_client.get(device_url)
-    assert response_get.data["installation_image_set"][0] == image_url
+    assert response_get.data["images"][0] == image_url
