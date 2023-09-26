@@ -1,9 +1,11 @@
+# mittaridatapumppu-deviceregistry
+
 version: '3.8'
 
 services:
 
   endpoint-digita:
-    image: forumviriumhelsinki/mittaridatapumppu-endpoint
+    image: ghcr.io/city-of-helsinki/mittaridatapumppu-endpoint
     ports:
       - "8001:8000"
     depends_on:
@@ -25,7 +27,7 @@ services:
       DEBUG: 1
 
   parser-digita:
-    image: forumviriumhelsinki/mittaridatapumppu-parser
+    image: ghcr.io/city-of-helsinki/mittaridatapumppu-parser
     depends_on:
       kafka:
         condition: service_healthy
@@ -42,10 +44,9 @@ services:
       LOG_LEVEL: "DEBUG"
       DEBUG: 1
       DEV_SERVER: 1
-    container_name: parser-digita
 
   persister-influxdb:
-    image: forumviriumhelsinki/mittaridatapumppu-persister
+    image: ghcr.io/city-of-helsinki/mittaridatapumppu-persister
     depends_on:
       kafka:
         condition: service_healthy
@@ -66,10 +67,9 @@ services:
       LOG_LEVEL: "DEBUG"
       DEBUG: 1
       DEV_SERVER: 1
-    container_name: persister-influxdb
 
   kafka:
-    image: docker.io/bitnami/kafka:3.4
+    image: bitnami/kafka:3.4
     ports:
       - "9092:9092"
     volumes:
@@ -93,7 +93,7 @@ services:
       timeout: 5s
 
   devreg:
-    image: forumviriumhelsinki/mittaridatapumppu-deviceregistry
+    image: ghcr.io/city-of-helsinki/mittaridatapumppu-deviceregistry
     build: .
     volumes:
       - media:/media
@@ -105,12 +105,9 @@ services:
       DATABASE_USER:
       DATABASE_PASSWORD:
       DATABASE_PORT:
-      DEBUG: 1
       ALLOWED_HOSTS:
       SECRET_KEY:
-
-
-    container_name: deviceregistry
+      DEBUG: 1
     depends_on:
       - db
 
@@ -120,7 +117,6 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: postgres
-
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
