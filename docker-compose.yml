@@ -12,17 +12,20 @@ services:
       kafka:
         condition: service_healthy
     environment:
+      # Endpoint config
       ALLOWED_IP_ADDRESSES: "127.0.0.1"
       AUTH_TOKEN: "abcd1234"
       DATA_SOURCE_NAME: "digita.thingpark.http"
       ENDPOINT_PATH: "/digita/v2"
       HTTP_REQUESTHANDLER: "endpoints.digita.aiothingpark"
+      # Kafka client config
       KAFKA_HOST: "kafka"
       KAFKA_PORT: 9092
       KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
       KAFKA_GROUP_ID: "digita_dev"
       KAFKA_PARSED_DATA_TOPIC_NAME: "digita.parseddata"
       KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
+      # Debug config
       LOG_LEVEL: "DEBUG"
       DEBUG: 1
 
@@ -33,14 +36,17 @@ services:
         condition: service_healthy
     restart: unless-stopped
     environment:
+      # Kafka client config
       KAFKA_HOST: "kafka"
       KAFKA_PORT: 9092
       KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
       KAFKA_GROUP_ID: "digita_dev"
       KAFKA_PARSED_DATA_TOPIC_NAME: "digita.parseddata"
       KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
+      # Parser config
       DEVICE_REGISTRY_URL: "http://devreg:8000/api/v1"
       DEVICE_REGISTRY_TOKEN: b48455759b691baf3b811ba437ce9e581fc0a37e
+      # Debug config
       LOG_LEVEL: "DEBUG"
       DEBUG: 1
       DEV_SERVER: 1
@@ -52,18 +58,22 @@ services:
         condition: service_healthy
     restart: unless-stopped
     environment:
+      # Kafka client config
       KAFKA_HOST: "kafka"
       KAFKA_PORT: 9092
       KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
       KAFKA_GROUP_ID: "digita_dev"
       KAFKA_PARSED_DATA_TOPIC_NAME: "digita.parseddata"
       KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
+      # Persister config
       DEVICE_REGISTRY_URL: "http://devreg:8000/api/v1"
       DEVICE_REGISTRY_TOKEN: b48455759b691baf3b811ba437ce9e581fc0a37e
+      # InfluxDB config
       INFLUXDB_URL: "https://influx.fvh.io"
       INFLUXDB_ORG: "Testing"
       INFLUXDB_BUCKET: "DigitaTest"
       INFLUXDB_TOKEN: "-DWlK7UjluBsFRgQ6ZTU82zfir89lAdY00hSvm-hhM-z2cmA-TwRekLj4C_KxU4jAU23H3vTkgGIQjqs68xHWg=="
+      # Debug config
       LOG_LEVEL: "DEBUG"
       DEBUG: 1
       DEV_SERVER: 1
@@ -100,13 +110,16 @@ services:
     ports:
       - "8000:8000"
     environment:
+      # Device registry config
       DJANGO_SETTINGS_MODULE: "deviceregistry.settings"
+      ALLOWED_HOSTS:
+      SECRET_KEY: # PostgreSQL config
+
       DATABASE_HOST:
       DATABASE_USER:
       DATABASE_PASSWORD:
-      DATABASE_PORT:
-      ALLOWED_HOSTS:
-      SECRET_KEY:
+      DATABASE_PORT: # Debug config
+
       DEBUG: 1
     depends_on:
       - db
