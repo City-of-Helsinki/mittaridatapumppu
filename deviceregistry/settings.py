@@ -92,18 +92,18 @@ DATABASES = {
         "PORT": env("DATABASE_PORT", default=5432),
     }
 }
-if env("DATABASE_LOCAL", default=False):
-    # Temp database for development
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.contrib.gis.db.backends.postgis",
-            "NAME": "deviceregistry",
-            # "USER": env("DATABASE_USER", default="postgres"),
-            # "PASSWORD": env("DATABASE_PASSWORD", default="postgres"),
-            # "HOST": env("DATABASE_HOST", default="db"),
-            # "PORT": env("DATABASE_PORT", default=5432),
-        }
-    }
+# if env("DATABASE_LOCAL", default=False):
+#     # Temp database for development
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.contrib.gis.db.backends.postgis",
+#             "NAME": "deviceregistry",
+#             # "USER": env("DATABASE_USER", default="postgres"),
+#             # "PASSWORD": env("DATABASE_PASSWORD", default="postgres"),
+#             # "HOST": env("DATABASE_HOST", default="db"),
+#             # "PORT": env("DATABASE_PORT", default=5432),
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -19,8 +19,12 @@ django-rest-framework==0.1.0
     # via mittaridatapumppu-deviceregistry (pyproject.toml)
 djangorestframework==3.14.0
     # via django-rest-framework
+et-xmlfile==1.1.0
+    # via openpyxl
 iniconfig==2.0.0
     # via pytest
+openpyxl==3.1.2
+    # via mittaridatapumppu-deviceregistry (pyproject.toml)
 packaging==23.1
     # via pytest
 pillow==10.0.1

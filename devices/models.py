@@ -1,16 +1,54 @@
-from django.db import models
-from django.contrib.auth.models import User
 import uuid
+
+from auditlog.registry import auditlog
+from django.contrib.auth.models import User
+from django.db import models
 from django.utils.html import mark_safe
+from django.utils.text import Truncator
+from django.utils.translation import gettext_lazy as _
+
+from deviceregistry.utils.models import BaseTimestampedModel
 
 
-class Location(models.Model):
-    lat = models.FloatField()  # degrees (°) -90.0 - 90.0
-    lon = models.FloatField()  # degrees (°) -180.0 - 180.0
-    area_name = models.CharField(max_length=200)
+def picture_path(instance, filename):
+    # Format instance.device.id to be 4 digits long
+    return "pictures/{0:04d}/{1}".format(instance.device.id, filename)
+
+
+def document_path(instance, filename):
+    # Format instance.device.id to be 4 digits long
+    return "documents/{0:04d}/{1}".format(instance.device.id, filename)
+
+
+class Organization(BaseTimestampedModel):
+    """
+    An Organization owns a set of Devices and can update properties of them.
+    """
+
+    slug = models.SlugField(max_length=64, unique=True)
+    name = models.CharField(max_length=200, editable=True, verbose_name=_("Name"))
+    description = models.TextField(blank=True, editable=True, verbose_name=_("Description"))
 
     def __str__(self):
-        return f"Location({self.lat}, {self.lon}), area = {self.area_name}"
+        org_str = self.name
+        truncator = Truncator(self.description)
+        descr_len = 23  # Limit description length
+        org_str += " ({})".format(truncator.chars(descr_len)) if self.description else ""
+        return org_str
+
+
+class Location(BaseTimestampedModel):
+    slug = models.SlugField(max_length=64, unique=True)
+    name = models.CharField(max_length=200, verbose_name=_("Name"))
+    locality = models.CharField(max_length=200, blank=True, verbose_name=_("Place name"))
+    district = models.CharField(max_length=200, blank=True, verbose_name=_("District name"))
+    description = models.TextField(blank=True, verbose_name=_("Description"))
+    lat = models.FloatField(verbose_name=_("Latitude (dd.ddddd)"))  # degrees (°) -90.0 - 90.0
+    lon = models.FloatField(verbose_name=_("Longitude (dd.ddddd)"))  # degrees (°) -180.0 - 180.0
+    properties = models.JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.lat:.5f}, {self.lon:.5f})"
 
 
 class StreamProcessor(models.Model):
@@ -34,28 +72,29 @@ class StreamProcessor(models.Model):
         return f"{self.name}, (type = {self.purpose})"
 
 
-class Document(models.Model):
-    document = models.FileField(upload_to="documents/%Y-%m-%d_%H", blank=True)
+class Document(BaseTimestampedModel):
+    document = models.FileField(upload_to=document_path)
     description = models.CharField()
 
     def __str__(self):
         return f"{self.description}"
 
 
-class DeviceType(models.Model):
+class DeviceType(BaseTimestampedModel):
+    slug = models.SlugField(max_length=64, unique=True)
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
+    urls = models.TextField(blank=True)
+    parser_module = models.CharField(max_length=200, blank=True)  # Can be overridden in Device
     processors = models.ManyToManyField(StreamProcessor, related_name="modules", blank=True)
     documents = models.ManyToManyField(Document, related_name="docs", blank=True)
-    additional_data_json = models.JSONField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
-    modified_at = models.DateTimeField(auto_now=True)
+    properties = models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.name}"
 
 
-class Device(models.Model):
+class Device(BaseTimestampedModel):
     UNRELIABLE = "UR"
     RELIABLE = "RE"
     NEEDS_PROCESSING = "NP"
@@ -85,12 +124,13 @@ class Device(models.Model):
         default=ACTIVE,
     )
     last_active_at = models.DateTimeField(null=True, blank=True)
-    current_location = models.OneToOneField(Location, on_delete=models.SET_NULL, null=True)
+    current_location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     lat = models.FloatField(null=True)  # degrees (°) -90.0 - 90.0
     lon = models.FloatField(null=True)  # degrees (°) -180.0 - 180.0
+    # properties = models.JSONField(null=True, blank=True)
     sensor_config = models.JSONField(null=True, blank=True)
     parser_module = models.CharField(max_length=200, blank=True)
-    additional_data_json = models.JSONField(null=True, blank=True)
+    properties = models.JSONField(null=True, blank=True)
     unit_of_measurement = models.CharField(max_length=200, blank=True)
     measurement_resolution = models.FloatField(null=True, blank=True)
 
@@ -99,14 +139,7 @@ class Device(models.Model):
         default=RELIABLE,
     )
 
-    equipment_condition = models.CharField(
-        choices=EQUIPMENT_CONDITION_CHOICES,
-        default=ACTIVE,
-    )
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
-    modified_at = models.DateTimeField(auto_now=True)
 
     # TODO: override save method to create a point from lat and lon
     # Note that this needs GeoDjango and PostGIS
@@ -120,35 +153,41 @@ class Device(models.Model):
         return f"{self.name}-{self.pseudonym}-{self.type}"
 
 
-class InstallationImage(models.Model):
-    description = models.CharField()
-    image = models.ImageField(upload_to="installation_pics/%Y-%m-%d_%H", blank=True)
-    device = models.ForeignKey(Device, related_name="installation_image_set", on_delete=models.CASCADE)
+class DeviceImage(BaseTimestampedModel):
+    device = models.ForeignKey(Device, related_name="images", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=picture_path)
+    title = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
+    properties = models.JSONField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.description}"
+        return f"{self.title}: {self.description[:30]}"
 
     def installation_img_preview(self):
         return mark_safe(f'<img src = "{self.image.url}" width = "300"/>')
 
 
-class MaintenanceLog(models.Model):
+class MaintenanceLog(BaseTimestampedModel):
     AUTO = "AU"
     MANUAL = "MA"
     TYPE_CHOICES = [
         (AUTO, "machine-generated"),
         (MANUAL, "manual"),
     ]
-    log_text = models.TextField(blank=True)
+    title = models.TextField(blank=True)
     log_file = models.FileField(upload_to="logs/%Y-%m-%d_%H", blank=True)
-    description = models.CharField()
+    description = models.TextField()
     type = models.CharField(
         choices=TYPE_CHOICES,
         default=MANUAL,
     )
-    device = models.ForeignKey(Device, related_name="maintenance_log_set", on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
-    modified_at = models.DateTimeField(auto_now=True)
+    device = models.ForeignKey(Device, related_name="logs", on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.description}"
+
+
+auditlog.register(Organization, exclude_fields=["updated_at"])
+auditlog.register(Location, exclude_fields=["updated_at"])
+auditlog.register(DeviceType, exclude_fields=["updated_at"])
+auditlog.register(Device, exclude_fields=["updated_at"])

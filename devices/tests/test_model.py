@@ -5,7 +5,7 @@ from devices.models import (
     Location,
     StreamProcessor,
     Document,
-    InstallationImage,
+    DeviceImage,
     DeviceType,
     MaintenanceLog,
 )
@@ -56,13 +56,13 @@ class InstallationImageTestCase(TestCase):
         img = Image.new(mode="RGB", size=(300, 300), color=(209, 123, 193))
         img.save(temp_file, "jpeg")
         device = Device.objects.get(device_id="test_device_id")
-        InstallationImage.objects.create(
+        DeviceImage.objects.create(
             image=temp_file.name,
             description="test_installation_img_description",
             device=device,
         )
 
-        image = InstallationImage.objects.get(description="test_installation_img_description")
+        image = DeviceImage.objects.get(description="test_installation_img_description")
         self.assertIsNotNone(image.image)
 
 

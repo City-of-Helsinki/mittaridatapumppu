@@ -13,11 +13,12 @@ requires-python = ">=3.10"
 dynamic = ["version"]
 
 dependencies = [
+  "Django >= 4.2.5, < 5.0",
   "django-auditlog",
   "django-environ",
-  "Django >= 4.2.5, < 5.0",
-  "Pillow",
   "django-rest-framework",
+  "openpyxl",
+  "Pillow",
   "psycopg2-binary",
   "pytest",
   "pytest-django",

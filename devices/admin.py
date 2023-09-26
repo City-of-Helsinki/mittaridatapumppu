@@ -1,17 +1,19 @@
 from django.contrib import admin
+from django.contrib.admin.models import LogEntry
 
 from .models import (
     Device,
     Location,
     StreamProcessor,
-    InstallationImage,
+    DeviceImage,
     Document,
     DeviceType,
     MaintenanceLog,
+    Organization,
 )
 
 
-# inline for many to many relationship
+# inline for many-to-many relationship
 class DeviceTypeProcessorAdminInline(admin.TabularInline):
     model = DeviceType.processors.through
     extra = 0
@@ -22,9 +24,9 @@ class DeviceTypeDocAdminInline(admin.TabularInline):
     extra = 0
 
 
-# inline for one to many relationship
+# inline for one-to-many relationship
 class InstallationImageAdminInline(admin.TabularInline):
-    model = InstallationImage
+    model = DeviceImage
     extra = 0
     readonly_fields = ("installation_img_preview",)
 
@@ -39,6 +41,11 @@ class DeviceAdminInline(admin.StackedInline):
     extra = 0
 
 
+class OrganizationAdmin(admin.ModelAdmin):
+    readonly_fields = ("created_at", "updated_at")
+    list_display = ("name", "description", "created_at", "updated_at")
+
+
 class DeviceTypeAdmin(admin.ModelAdmin):
     inlines = [
         DeviceAdminInline,
@@ -46,6 +53,7 @@ class DeviceTypeAdmin(admin.ModelAdmin):
         DeviceTypeDocAdminInline,
     ]
     exclude = ["processors", "documents"]
+    list_display = ("id", "slug", "name", "parser_module", "created_at")
 
 
 class DeviceAdmin(admin.ModelAdmin):
@@ -53,7 +61,7 @@ class DeviceAdmin(admin.ModelAdmin):
     exclude = ["processors", "documents"]
     readonly_fields = (
         "created_at",
-        "modified_at",
+        "updated_at",
     )
     list_display = (
         "device_id",
@@ -69,7 +77,7 @@ class DocumentAdmin(admin.ModelAdmin):
 
 
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ("device", "lat", "lon", "area_name")
+    list_display = ("device", "lat", "lon", "name")
 
 
 class StreamProcessorAdmin(admin.ModelAdmin):
@@ -82,10 +90,17 @@ class InstallationImageAdmin(admin.ModelAdmin):
     readonly_fields = ("installation_img_preview",)
 
 
+@admin.register(LogEntry)
+class LogEntryAdmin(admin.ModelAdmin):
+    list_display = ["__str__", "action_time", "user"]
+    list_filter = ["user"]
+
+
 admin.site.register(Device, DeviceAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(StreamProcessor, StreamProcessorAdmin)
-admin.site.register(InstallationImage, InstallationImageAdmin)
+admin.site.register(DeviceImage, InstallationImageAdmin)
 admin.site.register(Document, DocumentAdmin)
 admin.site.register(DeviceType, DeviceTypeAdmin)
 admin.site.register(MaintenanceLog)
+admin.site.register(Organization, OrganizationAdmin)
