@@ -57,6 +57,7 @@ force-exclude = '''
 
 [tool.ruff]
 line-length = 120
+target-version = "py311"
 ignore-init-module-imports = true
 exclude = ["migrations"]
 
