@@ -113,13 +113,13 @@ services:
       # Device registry config
       DJANGO_SETTINGS_MODULE: "deviceregistry.settings"
       ALLOWED_HOSTS:
-      SECRET_KEY: # PostgreSQL config
-
+      SECRET_KEY:
+      # PostgreSQL config
       DATABASE_HOST:
       DATABASE_USER:
       DATABASE_PASSWORD:
-      DATABASE_PORT: # Debug config
-
+      DATABASE_PORT:
+      # Debug config
       DEBUG: 1
     depends_on:
       - db
