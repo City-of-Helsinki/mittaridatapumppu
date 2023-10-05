@@ -18,7 +18,7 @@ each_model_admin = parametrize(
             site,
             model,
             model_admin,
-            id=f"{site.name}_{str(model_admin).replace('.', '_')}",
+            # id=f"{site.name}_{str(model_admin).replace('.', '_')}",
         )
         for site in all_sites
         for model, model_admin in site._registry.items()
