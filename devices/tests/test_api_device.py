@@ -9,7 +9,6 @@ logger = logging.getLogger(__name__)
 
 site_name = "testserver"
 
-
 device_type_payload = {
     "name": "Type 1 device type",
     "slug": "type1",
@@ -20,6 +19,7 @@ device_type_payload = {
 }
 
 username, password = "test_admin", "test_password"
+
 device_id = "id1234"
 
 

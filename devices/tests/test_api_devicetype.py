@@ -9,6 +9,15 @@ logger = logging.getLogger(__name__)
 
 site_name = "testserver"
 
+device_type_payload = {
+    "name": "Type 1 device type",
+    "slug": "type1",
+    "description": "test fleet",
+    "additional_data_json": None,
+    "processors": [],
+    "documents": [],
+}
+
 
 @pytest.fixture(scope="function")
 def api_client() -> APIClient:
@@ -43,14 +52,7 @@ def test_api_v1_device_type_unauthenticated(api_client) -> None:
     :param api_client:
     :return: None
     """
-    payload = {
-        "name": "type1",
-        "description": "test fleet",
-        "additional_data_json": None,
-        "processors": [],
-        "documents": [],
-    }
-
+    payload = device_type_payload
     response_post = api_client.post("/api/v1/device-types/", data=payload, format="json")
     assert response_post.status_code == 403
 
@@ -62,13 +64,7 @@ def test_api_v1_device_type_post(authenticated_client) -> None:
     :param api_client:
     :return: None
     """
-    payload = {
-        "name": "type1",
-        "description": "test fleet",
-        "additional_data_json": None,
-        "processors": [],
-        "documents": [],
-    }
+    payload = device_type_payload
     api_client = authenticated_client
     response_post = api_client.post("/api/v1/device-types/", data=payload, format="json")
     logger.info(response_post.data)
@@ -92,14 +88,7 @@ def test_api_v1_device_type_put(authenticated_client) -> None:
     :param api_client:
     :return: None
     """
-    post_payload = {
-        "name": "type_1",
-        "description": "test fleet",
-        "additional_data_json": None,
-        "processors": [],
-        "documents": [],
-    }
-
+    post_payload =  device_type_payload
     api_client = authenticated_client
     response_post = api_client.post("/api/v1/device-types/", data=post_payload, format="json")
     logger.info(response_post.data)
@@ -118,13 +107,7 @@ def test_api_v1_device_type_put(authenticated_client) -> None:
     assert response_post.status_code == 201
     url = response_post.data["url"]
 
-    put_payload = {
-        "name": "type_1",
-        "description": "updated test fleet",
-        "additional_data_json": None,
-        "processors": [url],
-        "documents": [],
-    }
+    put_payload = device_type_payload
 
     response_put = api_client.put(put_url_path, data=put_payload, format="json")
     logger.info(response_put.data)
@@ -140,14 +123,7 @@ def test_api_v1_device_type_patch(authenticated_client) -> None:
     :param api_client:
     :return: None
     """
-    post_payload = {
-        "name": "type_1",
-        "description": "test fleet",
-        "additional_data_json": None,
-        "processors": [],
-        "documents": [],
-    }
-
+    post_payload = device_type_payload
     api_client = authenticated_client
     response_post = api_client.post("/api/v1/device-types/", data=post_payload, format="json")
     logger.info(response_post.data)
@@ -183,14 +159,7 @@ def test_api_v1_device_type_delete(authenticated_client) -> None:
     :param api_client:
     :return: None
     """
-    post_payload = {
-        "name": "type_1",
-        "description": "test fleet",
-        "additional_data_json": None,
-        "processors": [],
-        "documents": [],
-    }
-
+    post_payload = device_type_payload
     api_client = authenticated_client
     response_post = api_client.post("/api/v1/device-types/", data=post_payload, format="json")
     logger.info(response_post.data)
@@ -211,14 +180,7 @@ def test_api_v1_device_type_invalid_post(authenticated_client) -> None:
     :param api_client:
     :return: None
     """
-    post_payload = {
-        "name": "type_1",
-        "description": "test fleet",
-        "additional_data_json": None,
-        "processors": ["not-a-hyperlink"],
-        "documents": [],
-    }
-
+    post_payload = device_type_payload
     api_client = authenticated_client
     response_post = api_client.post("/api/v1/device-types/", data=post_payload, format="json")
     logger.info(response_post.data["processors"])
