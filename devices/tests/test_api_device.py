@@ -10,6 +10,17 @@ logger = logging.getLogger(__name__)
 site_name = "testserver"
 
 
+device_type_payload = {
+    "name": "Type 1 device type",
+    "slug": "type1",
+    "description": "test fleet",
+    "additional_data_json": None,
+    "processors": [],
+    "documents": [],
+}
+
+
+
 @pytest.fixture(scope="function")
 def api_client() -> APIClient:
     """
@@ -41,13 +52,7 @@ def create_device_type(authenticated_client) -> str:
     """
     create a new device type and return hyperlink
     """
-    device_type_payload = {
-        "name": "type1",
-        "description": "test fleet",
-        "additional_data_json": None,
-        "processors": [],
-        "documents": [],
-    }
+    # device_type_payload is global variable
     api_client = authenticated_client
     response_post = api_client.post("/api/v1/device-types/", data=device_type_payload, format="json")
     logger.info(response_post.data)
@@ -80,13 +85,7 @@ def test_api_v1_device_post_all_fields(authenticated_client) -> None:
     :param api_client:
     :return: None
     """
-    device_type_payload = {
-        "name": "type1",
-        "description": "test fleet",
-        "additional_data_json": None,
-        "processors": [],
-        "documents": [],
-    }
+    # device_type_payload is global variable
     api_client = authenticated_client
     response_post = api_client.post("/api/v1/device-types/", data=device_type_payload, format="json")
     logger.info(response_post.data)
