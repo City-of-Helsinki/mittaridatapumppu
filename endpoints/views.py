@@ -9,10 +9,12 @@ class HostViewSet(viewsets.ModelViewSet):
     queryset = Host.objects.order_by("created_at")
     lookup_field = "slug"  # Use slug instead of pk
     serializer_class = HostSerializer
+    permission_classes = [permissions.DjangoModelPermissions]
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
 
 
 class EndpointViewSet(viewsets.ModelViewSet):
     queryset = Endpoint.objects.order_by("created_at")
     serializer_class = EndpointSerializer
+    permission_classes = [permissions.DjangoModelPermissions]
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]

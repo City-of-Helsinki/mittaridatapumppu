@@ -77,7 +77,7 @@ class DocumentAdmin(admin.ModelAdmin):
 
 
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ("device", "lat", "lon", "name")
+    list_display = ("name", "lat", "lon")
 
 
 class StreamProcessorAdmin(admin.ModelAdmin):

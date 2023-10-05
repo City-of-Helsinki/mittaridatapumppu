@@ -17,14 +17,14 @@ from django.test import override_settings
 class LocationTestCase(TestCase):
     def setUp(self):
         Location.objects.create(
-            lat=10.0,
-            lon=20.0,
-            area_name="Rautatientori",
+            lat=60.15,
+            lon=24.95,
+            name="Rautatientori",
         )
 
     def test_read_device_location(self):
-        device_location = Location.objects.get(area_name="Rautatientori")
-        self.assertEqual(str(device_location), "Location(10.0, 20.0), area = Rautatientori")
+        device_location = Location.objects.get(name="Rautatientori")
+        self.assertEqual(str(device_location), "Rautatientori (60.15000, 24.95000)")
 
 
 class StreamProcessorTestCase(TestCase):
@@ -138,10 +138,10 @@ class MaintenanceLogTestCase(TestCase):
         )
 
         MaintenanceLog.objects.create(
-            log_text="some text here",
+            title="Title",
+            description="log",
             log_file="test_description",
             device=sensor,
-            description="log",
         )
         maintenance_log = MaintenanceLog.objects.all().first()
         self.assertEqual(str(maintenance_log), "log")
