@@ -19,6 +19,7 @@ device_type_payload = {
     "documents": [],
 }
 
+username, password = "test_admin", "test_password"
 
 
 @pytest.fixture(scope="function")
@@ -36,8 +37,6 @@ def authenticated_client() -> APIClient:
     Fixture to login a user
     """
     api_client = APIClient()
-    username = "test_admin"
-    password = "test_password"
     user, created = User.objects.get_or_create(username=username)
     user.set_password(password)
     user.is_staff = True
@@ -102,7 +101,7 @@ def test_api_v1_device_post_all_fields(authenticated_client) -> None:
         "additional_data_json": None,
         "equipment_condition": "AC",
         "quality_indicator": "RE",
-        "owner": "http://testserver/api/v1/users/1/",
+        "owner": f"http://testserver/api/v1/users/{username}/",
         "unit_of_measurement": "m",
         "measurement_resolution": 0.1,
         "images": [],
@@ -120,7 +119,7 @@ def test_api_v1_device_post_all_fields(authenticated_client) -> None:
 
     response_get = api_client.get(device_url)
     logger.info(response_get.data)
-    assert response_get.data["owner"] == "http://testserver/api/v1/users/1/"
+    assert response_get.data["owner"] == f"http://testserver/api/v1/users/{username}/"
 
 
 @pytest.mark.django_db
