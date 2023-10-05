@@ -20,6 +20,7 @@ device_type_payload = {
 }
 
 username, password = "test_admin", "test_password"
+device_id = "id1234"
 
 
 @pytest.fixture(scope="function")
@@ -92,7 +93,7 @@ def test_api_v1_device_post_all_fields(authenticated_client) -> None:
     type_url = response_post.data["url"]
 
     payload = {
-        "device_id": "id1234",
+        "device_id": device_id,
         "name": "sensor2",
         "pseudonym": "q1",
         "description": "test fleet from akaniemi",
@@ -101,7 +102,7 @@ def test_api_v1_device_post_all_fields(authenticated_client) -> None:
         "additional_data_json": None,
         "equipment_condition": "AC",
         "quality_indicator": "RE",
-        "owner": f"http://testserver/api/v1/users/{username}/",
+        "owner": f"http://{site_name}/api/v1/users/{username}/",
         "unit_of_measurement": "m",
         "measurement_resolution": 0.1,
         "images": [],
@@ -110,16 +111,15 @@ def test_api_v1_device_post_all_fields(authenticated_client) -> None:
         "lat": 60.0,
         "lon": 24.0,
     }
-
     response_post = api_client.post("/api/v1/devices/", data=payload, format="json")
     logger.info(response_post.data)
     assert response_post.status_code == 201, "post succeeds"
     device_url = response_post.data["url"]
-    assert device_url == "http://testserver/api/v1/devices/id1234/", "lookupfield is device_id"
+    assert device_url == f"http://{site_name}/api/v1/devices/{device_id}/", "lookupfield is device_id"
 
     response_get = api_client.get(device_url)
     logger.info(response_get.data)
-    assert response_get.data["owner"] == f"http://testserver/api/v1/users/{username}/"
+    assert response_get.data["owner"] == f"http://{site_name}/api/v1/users/{username}/"
 
 
 @pytest.mark.django_db
@@ -131,18 +131,17 @@ def test_api_v1_device_add_installation_image(authenticated_client) -> None:
     """
 
     type_url = create_device_type(authenticated_client)
-
     payload = {
-        "device_id": "id1234",
+        "device_id": device_id,
         "name": "sensor2",
         "pseudonym": "q1",
-        "description": "test fleet from akaniemi",
+        "description": "test fleet from Hakaniemi",
         "type": type_url,
         "sensor_config": None,
         "additional_data_json": None,
         "equipment_condition": "AC",
         "quality_indicator": "RE",
-        "owner": "http://testserver/api/v1/users/2/",
+        "owner": f"http://{site_name}/api/v1/users/{username}/",
         "unit_of_measurement": "m",
         "measurement_resolution": 0.1,
         "images": [],
@@ -157,7 +156,7 @@ def test_api_v1_device_add_installation_image(authenticated_client) -> None:
     logger.info(f" post device  {response_post.data}")
     assert response_post.status_code == 201
     device_url = response_post.data["url"]
-    assert device_url == "http://testserver/api/v1/devices/id1234/"
+    assert device_url == f"http://{site_name}/api/v1/devices/{device_id}/"
 
     file = "devices/tests/testresources/testimage.jpeg"
     image_payload = {
