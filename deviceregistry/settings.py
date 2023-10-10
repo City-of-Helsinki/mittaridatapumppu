@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import environ
+import os
 from pathlib import Path
+
+import environ
 
 env = environ.Env(
     # set casting, default value
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.gis",
     "rest_framework",
     "rest_framework.authtoken",
     "auditlog",
@@ -78,13 +81,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "deviceregistry.wsgi.application"
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+# Database https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        # "ENGINE": "django.contrib.gis.db.backends.postgis",
+        # "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": env("DATABASE_NAME", default="postgres"),
         "USER": env("DATABASE_USER", default="postgres"),
         "PASSWORD": env("DATABASE_PASSWORD", default="postgres"),
@@ -92,18 +93,7 @@ DATABASES = {
         "PORT": env("DATABASE_PORT", default=5432),
     }
 }
-# if env("DATABASE_LOCAL", default=False):
-#     # Temp database for development
-#     DATABASES = {
-#         "default": {
-#             "ENGINE": "django.contrib.gis.db.backends.postgis",
-#             "NAME": "deviceregistry",
-#             # "USER": env("DATABASE_USER", default="postgres"),
-#             # "PASSWORD": env("DATABASE_PASSWORD", default="postgres"),
-#             # "HOST": env("DATABASE_HOST", default="db"),
-#             # "PORT": env("DATABASE_PORT", default=5432),
-#         }
-#     }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -151,3 +141,12 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 50,
 }
+
+
+# Set library paths depending on which environment we are running in
+# These are needed for GeoDjango running in Docker python:3.11-alpine
+if os.environ.get("DOCKER_IMAGE", "") == "alpine":
+    GDAL_LIBRARY_PATH = "/usr/lib/libgdal.so"
+    GEOS_LIBRARY_PATH = "/usr/lib/libgeos_c.so"
+else:
+    pass
