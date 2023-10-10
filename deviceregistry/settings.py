@@ -16,7 +16,16 @@ import environ
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, False)
+    DEBUG=(bool, False),
+    SECRET_KEY=(str, "django-insecure-vz&7byj9esv1ncrv(7805g7w%h+-(-k_q82q(woh%1pcxr)^jf"),
+    # Platta uses mSECRET_KEY as the name for the variable.
+    mSECRET_KEY=(str, ""),
+    ALLOWED_HOSTS=(list, ["devreg", "localhost", "127.0.0.1", "[::1]"]),
+    DJANGO_DB_NAME=(str, "postgres"),
+    DJANGO_DB_USER=(str, "postgres"),
+    DJANGO_DB_PASSWORD=(str, "postgres"),
+    DJANGO_DB_HOST=(str, "db"),
+    DJANGO_DB_PORT=(str, 5432)
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,12 +35,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY", default="django-insecure-vz&7byj9esv1ncrv(7805g7w%h+-(-k_q82q(woh%1pcxr)^jf")
+# Use mSECRET_KEY if it is defined.
+SECRET_KEY = env("mSECRET_KEY") or env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = env("ALLOWED_HOSTS", default=["devreg", "localhost", "127.0.0.1", "[::1]"])
+ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
 # Application definition
 
@@ -83,16 +93,26 @@ WSGI_APPLICATION = "deviceregistry.wsgi.application"
 # Database https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 DATABASES = {
     "default": {
-        # "ENGINE": "django.db.backends.postgresql",
         "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": env("DATABASE_NAME", default="postgres"),
-        "USER": env("DATABASE_USER", default="postgres"),
-        "PASSWORD": env("DATABASE_PASSWORD", default="postgres"),
-        "HOST": env("DATABASE_HOST", default="db"),
-        "PORT": env("DATABASE_PORT", default=5432),
+        "NAME": env("DJANGO_DB_NAME"),
+        "USER": env("DJANGO_DB_USER"),
+        "PASSWORD": env("DJANGO_DB_PASSWORD"),
+        "HOST": env("DJANGO_DB_HOST"),
+        "PORT": env("DJANGO_DB_PORT"),
     }
 }
-
+# if env("DATABASE_LOCAL", default=False):
+#     # Temp database for development
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.contrib.gis.db.backends.postgis",
+#             "NAME": "deviceregistry",
+#             # "USER": env("DJANGO_DB_USER", default="postgres"),
+#             # "PASSWORD": env("DJANGO_DB_PASSWORD", default="postgres"),
+#             # "HOST": env("DJANGO_DB_HOST", default="db"),
+#             # "PORT": env("DJANGO_DB_PORT", default=5432),
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -115,10 +115,10 @@ services:
       ALLOWED_HOSTS:
       SECRET_KEY:
       # PostgreSQL config
-      DATABASE_HOST:
-      DATABASE_USER:
-      DATABASE_PASSWORD:
-      DATABASE_PORT:
+      DJANGO_DB_HOST:
+      DJANGO_DB_USER:
+      DJANGO_DB_PASSWORD:
+      DJANGO_DB_PORT:
       # Debug config
       DEBUG: 1
     depends_on:
