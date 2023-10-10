@@ -2,16 +2,27 @@
 
 FROM python:3.11-alpine
 
+# DOCKER_IMAGE is checked in settings.py to determine which *_LIBRARY_PATHs to use
+ENV DOCKER_IMAGE alpine
+
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# Override these in the docker-compose.yml file or elsewhere
 ENV DATABASE_NAME=postgres
 ENV DATABASE_USER=postgres
 ENV DATABASE_PASSWORD=postgres
 ENV DATABASE_HOST=db
 ENV DATABASE_PORT=5432
+
 ENV MEDIA_HOME=/media
 ENV DJANGO_SETTINGS_MODULE=deviceregistry.settings
+
+# Install GeoDjango dependencies
+RUN apk add --no-cache \
+        geos-dev \
+        proj-dev \
+        gdal-dev
 
 RUN addgroup -S app && adduser -S app -G app
 WORKDIR /home/app
