@@ -75,3 +75,5 @@ exclude = ["migrations", "venv"]
 DJANGO_SETTINGS_MODULE = "deviceregistry.settings"
 log_cli = 1
 log_cli_level = 20
+testpaths = ["devices/tests"]
+addopts = ["--color=yes"]
