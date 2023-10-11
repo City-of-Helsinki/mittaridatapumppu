@@ -141,12 +141,3 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 50,
 }
-
-
-# Set library paths depending on which environment we are running in
-# These are needed for GeoDjango running in Docker python:3.11-alpine
-if os.environ.get("DOCKER_IMAGE", "") == "alpine":
-    GDAL_LIBRARY_PATH = "/usr/lib/libgdal.so"
-    GEOS_LIBRARY_PATH = "/usr/lib/libgeos_c.so"
-else:
-    pass

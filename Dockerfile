@@ -18,11 +18,12 @@ ENV DATABASE_PORT=5432
 ENV MEDIA_HOME=/media
 ENV DJANGO_SETTINGS_MODULE=deviceregistry.settings
 
-# Install GeoDjango dependencies
+# Install GeoDjango dependencies and binutils to help Django find them
 RUN apk add --no-cache \
-        geos-dev \
-        proj-dev \
-        gdal-dev
+  geos-dev \
+  proj-dev \
+  gdal-dev \
+  binutils
 
 RUN addgroup -S app && adduser -S app -G app
 WORKDIR /home/app
