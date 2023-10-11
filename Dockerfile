@@ -6,12 +6,15 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Override these in the docker-compose.yml file or elsewhere
-ENV DATABASE_NAME=postgres
-ENV DATABASE_USER=postgres
-ENV DATABASE_PASSWORD=postgres
-ENV DATABASE_HOST=db
-ENV DATABASE_PORT=5432
 
+# PostgreSQL config
+ENV DJANGO_DB_NAME=postgres
+ENV DJANGO_DB_USER=postgres
+ENV DJANGO_DB_PASSWORD=postgres
+ENV DJANGO_DB_HOST=db
+ENV DJANGO_DB_PORT=5432
+
+# Device registry config
 ENV MEDIA_HOME=/media
 ENV DJANGO_SETTINGS_MODULE=deviceregistry.settings
 

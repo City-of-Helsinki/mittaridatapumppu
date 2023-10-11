@@ -66,11 +66,8 @@ jobs:
           ruff check --output-format=github .
       - name: Test with pytest
         env:
-          DATABASE_HOST: localhost
-          DATABASE_PORT: 5432
+          DJANGO_DB_HOST: localhost
+          DJANGO_DB_PORT: 5432
           MEDIA_ROOT: /tmp
-          PYTEST_ADDOPTS: "--color=yes"
         run: |
-          python manage.py test devices/tests
-          pytest devices/tests/test_api_device.py
-          pytest devices/tests/test_api_devicetype.py
+          pytest
