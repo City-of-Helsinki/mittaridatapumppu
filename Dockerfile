@@ -2,9 +2,6 @@
 
 FROM python:3.11-alpine
 
-# DOCKER_IMAGE is checked in settings.py to determine which *_LIBRARY_PATHs to use
-ENV DOCKER_IMAGE alpine
-
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
