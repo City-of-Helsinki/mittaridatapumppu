@@ -1,6 +1,3 @@
 *
-!deviceregistry/
-!endpoints/
-!devices/
-!manage.py
+!mittaridatapumppu-deviceregistry
 !requirements.txt

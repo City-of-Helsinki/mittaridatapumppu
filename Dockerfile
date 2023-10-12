@@ -2,6 +2,10 @@
 
 FROM python:3.11-alpine
 
+LABEL org.opencontainers.image.source=https://github.com/city-of-helsinki/mittaridatapumppu
+LABEL org.opencontainers.image.description="Mittaridatapumppu Device Registry"
+LABEL org.opencontainers.image.licenses="Apache License 2.0"
+
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
@@ -32,7 +36,7 @@ WORKDIR /home/app
 COPY --chown=app:app requirements.txt .
 RUN pip install --no-cache-dir --no-compile --upgrade -r requirements.txt
 
-COPY --chown=app:app . .
+COPY --chown=app:app mittaridatapumppu-deviceregistry/ .
 
 # Support Arbitrary User IDs
 RUN chgrp -R 0 /home/app && \
@@ -40,5 +44,5 @@ RUN chgrp -R 0 /home/app && \
 
 USER app
 
-# start django server
-CMD ["python", "./manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["uvicorn", "deviceregistry.asgi:application", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--lifespan", "off"]
+EXPOSE 8000/tcp
