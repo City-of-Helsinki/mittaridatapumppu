@@ -15,7 +15,7 @@ ENV DJANGO_DB_HOST=db
 ENV DJANGO_DB_PORT=5432
 
 # Device registry config
-ENV MEDIA_HOME=/media
+ENV MEDIA_ROOT=/media
 ENV DJANGO_SETTINGS_MODULE=deviceregistry.settings
 
 # Install GeoDjango dependencies and binutils to help Django find them
