@@ -13,3 +13,8 @@ The following repositories contain the services for the data pipeline shown in d
 
 # Build and Test
 Go To [test set up](tests/README.md)
+
+```
+pip-compile
+pip-compile --extra dev --output-file requirements-dev.txt
+```

@@ -22,6 +22,8 @@ ENV DJANGO_DB_PORT=5432
 ENV MEDIA_ROOT=/media
 ENV DJANGO_SETTINGS_MODULE=deviceregistry.settings
 
+COPY entrypoint.sh /
+
 # Install GeoDjango dependencies and binutils to help Django find them
 RUN apk add --no-cache \
   geos-dev \
@@ -44,5 +46,6 @@ RUN chgrp -R 0 /home/app && \
 
 USER app
 
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["uvicorn", "deviceregistry.asgi:application", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--lifespan", "off"]
 EXPOSE 8000/tcp
