@@ -24,7 +24,8 @@ dependencies = [
   "pytest-django",
   "sqlparse",
   "unittest-parametrize",
-  "whitenoise < 7"
+  "uvicorn",
+  "whitenoise < 7",
 ]
 
 [tool.black]
@@ -73,8 +74,10 @@ remove-unused-variables = true
 exclude = ["migrations", "venv"]
 
 [tool.pytest.ini_options]
+pythonpath = "mittaridatapumppu-deviceregistry"
 DJANGO_SETTINGS_MODULE = "deviceregistry.settings"
 log_cli = 1
 log_cli_level = 20
-testpaths = ["devices/tests"]
+testpaths = ["mittaridatapumppu-deviceregistry/devices/tests"]
 addopts = ["--color=yes"]
+
