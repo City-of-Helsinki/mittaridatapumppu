@@ -24,6 +24,7 @@ dependencies = [
   "pytest-django",
   "sqlparse",
   "unittest-parametrize",
+  "whitenoise < 7"
 ]
 
 [tool.black]
