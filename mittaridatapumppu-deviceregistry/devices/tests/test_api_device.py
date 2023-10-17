@@ -129,9 +129,6 @@ def test_api_v1_device_add_installation_image(authenticated_client) -> None:
     :param api_client:
     :return: None
     """
-    # TODO: fix this test, fails with
-    # FileNotFoundError: [Errno 2] No such file or directory: 'devices/tests/testresources/testimage.jpeg'
-    return
     type_url = create_device_type(authenticated_client)
     payload = {
         "device_id": device_id,
@@ -160,7 +157,7 @@ def test_api_v1_device_add_installation_image(authenticated_client) -> None:
     device_url = response_post.data["url"]
     assert device_url == f"http://{site_name}/api/v1/devices/{device_id}/"
 
-    file = "devices/tests/testresources/testimage.jpeg"
+    file = "mittaridatapumppu-deviceregistry/devices/tests/testresources/testimage.jpeg"
     image_payload = {
         "image": (open(file, "rb"), file),
         "description": "test fleet",
