@@ -156,9 +156,9 @@ services:
       DOCKER_INFLUXDB_INIT_BUCKET: devbucket
       DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: "insercure-token-for-development-and-testing-purposes-only-KxU4jAU23H3vTk"
     healthcheck:
-      test: ["CMD", "curl", "influxdb2:18086/api/v2/ping"]
-      interval: 1m
-      timeout: 10s
+      test: "curl --fail localhost:8086/health"
+      interval: 10s
+      timeout: 5s
       retries: 5
 
 volumes:
