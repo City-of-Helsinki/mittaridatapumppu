@@ -68,10 +68,10 @@ services:
       DEVICE_REGISTRY_URL: "http://deviceregistry:8000/api/v1"
       DEVICE_REGISTRY_TOKEN: abcdef1234567890abcdef1234567890abcdef12
       # InfluxDB config
-      INFLUXDB_URL: "http://influxdb2:8086"
-      INFLUXDB_ORG: "Development"
-      INFLUXDB_BUCKET: "devbucket"
-      INFLUXDB_TOKEN: "insercure-token-for-development-and-testing-purposes-only-KxU4jAU23H3vTk"
+      INFLUX_HOST: "http://influxdb2:8086"
+      INFLUX_ORG: "Development"
+      INFLUX_BUCKET: "devbucket"
+      INFLUX_TOKEN: "insercure-token-for-development-and-testing-purposes-only-KxU4jAU23H3vTk"
       # Debug config
       DEBUG: 1
 
