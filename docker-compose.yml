@@ -5,7 +5,7 @@ version: '3.8'
 services:
 
   endpoint:
-    image: ghcr.io/city-of-helsinki/mittaridatapumppu-endpoint
+    image: ghcr.io/city-of-helsinki/mittaridatapumppu-endpoint:latest
     build: ./mittaridatapumppu-endpoint
     ports:
       - "8001:8000"
@@ -25,7 +25,7 @@ services:
       DEBUG: 1
 
   parser-digita:
-    image: ghcr.io/city-of-helsinki/mittaridatapumppu-parser
+    image: ghcr.io/city-of-helsinki/mittaridatapumppu-parser:latest
     build: ./mittaridatapumppu-parser
     container_name: parser-digita
     depends_on:
@@ -47,7 +47,7 @@ services:
       DEBUG: 1
 
   persister-influxdb:
-    image: ghcr.io/city-of-helsinki/mittaridatapumppu-persister
+    image: ghcr.io/city-of-helsinki/mittaridatapumppu-persister:latest
     build: ./mittaridatapumppu-persister
     container_name: persister-influxdb
     depends_on:
@@ -100,7 +100,7 @@ services:
       timeout: 5s
 
   deviceregistry:
-    image: ghcr.io/city-of-helsinki/mittaridatapumppu-deviceregistry
+    image: ghcr.io/city-of-helsinki/mittaridatapumppu-deviceregistry:latest
     build: .
     container_name: deviceregistry
     volumes:
