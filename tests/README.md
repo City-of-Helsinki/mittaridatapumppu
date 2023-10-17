@@ -32,8 +32,8 @@ docker-compose up --build -d
 ###  Get deviceregstry up and functional
 
 ```
-docker-compose exec devreg python manage.py migrate
-docker-compose exec devreg python manage.py createsuperuser
+docker-compose exec deviceregistry python manage.py migrate
+docker-compose exec deviceregistry python manage.py createsuperuser
 <Configure user to your satisfaction>
 <Verify that you can login at 127.0.0.1:8000/admin/ >
 ```
@@ -44,14 +44,14 @@ This loads authtoken.token, which is also configured in docker-compose.yml
 and some test devices.
 
 ```
-docker-compose exec devreg python manage.py loaddata devices/fixtures/initialdata.json
+docker-compose exec deviceregistry python manage.py loaddata devices/fixtures/initialdata.json
 ```
 
 #### to run device registry tests:
 ```
-docker-compose exec devreg python manage.py test devices/tests
-docker-compose exec devreg pytest devices/tests/test_api_device.py
-docker-compose exec devreg pytest devices/tests/test_api_devicetype.py
+docker-compose exec deviceregistry python manage.py test devices/tests
+docker-compose exec deviceregistry pytest devices/tests/test_api_device.py
+docker-compose exec deviceregistry pytest devices/tests/test_api_devicetype.py
 ```
 ### Access Tokens
 

@@ -20,7 +20,7 @@ env = environ.Env(
     SECRET_KEY=(str, "django-insecure-vz&7byj9esv1ncrv(7805g7w%h+-(-k_q82q(woh%1pcxr)^jf"),
     # Platta uses mSECRET_KEY as the name for the variable.
     mSECRET_KEY=(str, ""),
-    ALLOWED_HOSTS=(list, ["devreg", "localhost", "127.0.0.1", "[::1]"]),
+    ALLOWED_HOSTS=(list, ["deviceregistry", "localhost", "127.0.0.1", "[::1]"]),
     DJANGO_DB_NAME=(str, "postgres"),
     DJANGO_DB_USER=(str, "postgres"),
     DJANGO_DB_PASSWORD=(str, "postgres"),

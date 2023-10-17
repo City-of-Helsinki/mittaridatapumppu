@@ -34,8 +34,8 @@ pre-commit install
 
 ```
 docker-compose up --build -d
-docker-compose exec devreg python manage.py migrate
-docker-compose exec devreg python manage.py createsuperuser
+docker-compose exec deviceregistry python manage.py migrate
+docker-compose exec deviceregistry python manage.py createsuperuser
 <Configure user to your satisfaction>
 <Verify that you can login at 127.0.0.1:8000/admin/ >
 ```
@@ -44,13 +44,13 @@ docker-compose exec devreg python manage.py createsuperuser
 
 for api tests:
 ```
-docker-compose exec devreg pytest devices/tests/test_api.py
+docker-compose exec deviceregistry pytest devices/tests/test_api.py
 ```
 
 for model and admin page tests
 
 ```
-docker-compose exec devreg python manage.py test devices/tests
+docker-compose exec deviceregistry python manage.py test devices/tests
 ```
 
 # Misc stuff

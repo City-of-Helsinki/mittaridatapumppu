@@ -4,79 +4,76 @@ version: '3.8'
 
 services:
 
-  endpoint-digita:
+  endpoint:
     image: ghcr.io/city-of-helsinki/mittaridatapumppu-endpoint
+    build: ./mittaridatapumppu-endpoint
     ports:
       - "8001:8000"
     depends_on:
       kafka:
         condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - ./mittaridatapumppu-endpoint:/home/app
+      - ./fvhiot-python/fvhiot:/home/app/fvhiot
     environment:
-      # Endpoint config
-      ALLOWED_IP_ADDRESSES: "127.0.0.1"
-      AUTH_TOKEN: "abcd1234"
-      DATA_SOURCE_NAME: "digita.thingpark.http"
-      ENDPOINT_PATH: "/digita/v2"
-      HTTP_REQUESTHANDLER: "endpoints.digita.aiothingpark"
-      # Kafka client config
-      KAFKA_HOST: "kafka"
-      KAFKA_PORT: 9092
+      DEVREG_ENDPOINTS_URL: "http://deviceregistry:8000/api/v1/hosts/localhost/"
+      DEVREG_API_TOKEN: "abcdef1234567890abcdef1234567890abcdef12"
       KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
-      KAFKA_GROUP_ID: "digita_dev"
-      KAFKA_PARSED_DATA_TOPIC_NAME: "digita.parseddata"
-      KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
-      # Debug config
-      LOG_LEVEL: "DEBUG"
+      UVICORN_LOG_LEVEL: "debug"
+      UVICORN_RELOAD: "true"
       DEBUG: 1
 
   parser-digita:
     image: ghcr.io/city-of-helsinki/mittaridatapumppu-parser
+    build: ./mittaridatapumppu-parser
+    container_name: parser-digita
     depends_on:
       kafka:
         condition: service_healthy
     restart: unless-stopped
+    volumes:
+      - ./fvhiot-python/fvhiot:/home/app/fvhiot
     environment:
       # Kafka client config
-      KAFKA_HOST: "kafka"
-      KAFKA_PORT: 9092
       KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
       KAFKA_GROUP_ID: "digita_dev"
       KAFKA_PARSED_DATA_TOPIC_NAME: "digita.parseddata"
       KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
       # Parser config
-      DEVICE_REGISTRY_URL: "http://devreg:8000/api/v1"
-      DEVICE_REGISTRY_TOKEN: b48455759b691baf3b811ba437ce9e581fc0a37e
+      DEVICE_REGISTRY_URL: "http://deviceregistry:8000/api/v1"
+      DEVICE_REGISTRY_TOKEN: abcdef1234567890abcdef1234567890abcdef12
       # Debug config
-      LOG_LEVEL: "DEBUG"
       DEBUG: 1
-      DEV_SERVER: 1
 
   persister-influxdb:
     image: ghcr.io/city-of-helsinki/mittaridatapumppu-persister
+    build: ./mittaridatapumppu-persister
+    container_name: persister-influxdb
     depends_on:
       kafka:
         condition: service_healthy
+#      influxdb2:
+#        condition: service_healthy
     restart: unless-stopped
+    volumes:
+      - ./fvhiot-python/fvhiot:/home/app/fvhiot
     environment:
       # Kafka client config
-      KAFKA_HOST: "kafka"
-      KAFKA_PORT: 9092
       KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
       KAFKA_GROUP_ID: "digita_dev"
       KAFKA_PARSED_DATA_TOPIC_NAME: "digita.parseddata"
       KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
       # Persister config
-      DEVICE_REGISTRY_URL: "http://devreg:8000/api/v1"
-      DEVICE_REGISTRY_TOKEN: b48455759b691baf3b811ba437ce9e581fc0a37e
+      DEVICE_REGISTRY_URL: "http://deviceregistry:8000/api/v1"
+      DEVICE_REGISTRY_TOKEN: abcdef1234567890abcdef1234567890abcdef12
       # InfluxDB config
-      INFLUXDB_URL: "https://influx.fvh.io"
-      INFLUXDB_ORG: "Testing"
-      INFLUXDB_BUCKET: "DigitaTest"
-      INFLUXDB_TOKEN: "-DWlK7UjluBsFRgQ6ZTU82zfir89lAdY00hSvm-hhM-z2cmA-TwRekLj4C_KxU4jAU23H3vTkgGIQjqs68xHWg=="
+      INFLUXDB_URL: "http://influxdb2:8086"
+      INFLUXDB_ORG: "Development"
+      INFLUXDB_BUCKET: "devbucket"
+      INFLUXDB_TOKEN: "insercure-token-for-development-and-testing-purposes-only-KxU4jAU23H3vTk"
       # Debug config
-      LOG_LEVEL: "DEBUG"
       DEBUG: 1
-      DEV_SERVER: 1
 
   kafka:
     image: bitnami/kafka:3.4
@@ -102,10 +99,12 @@ services:
       test: kafka-topics.sh --bootstrap-server kafka:9092 --topic hc --create --if-not-exists && kafka-topics.sh --bootstrap-server kafka:9092 --topic hc --describe
       timeout: 5s
 
-  devreg:
+  deviceregistry:
     image: ghcr.io/city-of-helsinki/mittaridatapumppu-deviceregistry
     build: .
+    container_name: deviceregistry
     volumes:
+      - ./mittaridatapumppu-deviceregistry:/home/app
       - media:/media
     ports:
       - "8000:8000"
@@ -116,15 +115,19 @@ services:
       SECRET_KEY:
       # PostgreSQL config
       DJANGO_DB_HOST:
+      DJANGO_DB_NAME:
       DJANGO_DB_USER:
       DJANGO_DB_PASSWORD:
       DJANGO_DB_PORT:
       # Debug config
+      UVICORN_LOG_LEVEL: "debug"
+      UVICORN_RELOAD: "true"
       DEBUG: 1
       # UVICORN_RELOAD: true
       # UVICORN_LOG_LEVEL: true
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: postgis/postgis:16-3.4
@@ -134,6 +137,29 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    healthcheck:
+      test: "pg_isready -U postgres -d postgres"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  influxdb2:
+    image: influxdb:2.7
+    ports:
+      - "18086:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: root
+      DOCKER_INFLUXDB_INIT_PASSWORD: ruutruut
+      DOCKER_INFLUXDB_INIT_ORG: Development
+      DOCKER_INFLUXDB_INIT_BUCKET: devbucket
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: "insercure-token-for-development-and-testing-purposes-only-KxU4jAU23H3vTk"
+    healthcheck:
+      test: ["CMD", "curl", "influxdb2:18086/api/v2/ping"]
+      interval: 1m
+      timeout: 10s
+      retries: 5
 
 volumes:
   postgres_data:
