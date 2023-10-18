@@ -17,8 +17,8 @@ services:
       - ./mittaridatapumppu-endpoint:/home/app
       - ./fvhiot-python/fvhiot:/home/app/fvhiot
     environment:
-      DEVREG_ENDPOINTS_URL: "http://deviceregistry:8000/api/v1/hosts/localhost/"
-      DEVREG_API_TOKEN: "abcdef1234567890abcdef1234567890abcdef12"
+      ENDPOINT_CONFIG_URL: "http://deviceregistry:8000/api/v1/hosts/localhost/"
+      DEVICE_REGISTRY_TOKEN: "abcdef1234567890abcdef1234567890abcdef12"
       KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
       UVICORN_LOG_LEVEL: "debug"
       UVICORN_RELOAD: "true"
