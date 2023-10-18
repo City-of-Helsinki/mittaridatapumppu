@@ -1,12 +1,12 @@
 [submodule "mittaridatapumppu-endpoint"]
 	path = mittaridatapumppu-endpoint
-	url = git@github.com:City-of-Helsinki/mittaridatapumppu-endpoint.git
+	url = https://github.com/City-of-Helsinki/mittaridatapumppu-endpoint.git
 [submodule "mittaridatapumppu-parser"]
 	path = mittaridatapumppu-parser
-	url = git@github.com:City-of-Helsinki/mittaridatapumppu-parser.git
+	url = https://github.com/City-of-Helsinki/mittaridatapumppu-parser.git
 [submodule "mittaridatapumppu-persister"]
 	path = mittaridatapumppu-persister
-	url = git@github.com:City-of-Helsinki/mittaridatapumppu-persister.git
+	url = https://github.com/City-of-Helsinki/mittaridatapumppu-persister.git
 [submodule "fvhiot-python"]
 	path = fvhiot-python
-	url = git@github.com:ForumViriumHelsinki/FVHIoT-python.git
+	url = https://github.com/ForumViriumHelsinki/FVHIoT-python.git
