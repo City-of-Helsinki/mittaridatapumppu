@@ -47,5 +47,23 @@
     "kafka_parsed_data_topic": "digita.parsed",
     "kafka_group_id": "digita_dev"
   }
+},
+{
+  "model": "endpoints.endpoint",
+  "pk": 3,
+  "fields": {
+    "created_at": "2023-10-06T12:00:00.042Z",
+    "updated_at": "2023-10-06T12:00:00.042Z",
+    "host": 1,
+    "endpoint_path": "/api/v1/cesva",
+    "http_request_handler": "endpoints.sentilo.cesva",
+    "auth_token": "abc123",
+    "data_source": "sentilo.cesva.http",
+    "properties": null,
+    "allowed_ip_addresses": "",
+    "kafka_raw_data_topic": "cesva.rawdata",
+    "kafka_parsed_data_topic": "cesva.parsed",
+    "kafka_group_id": "cesva_dev"
+  }
 }
 ]
