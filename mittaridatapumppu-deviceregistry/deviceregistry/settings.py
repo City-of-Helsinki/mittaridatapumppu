@@ -21,6 +21,7 @@ env = environ.Env(
     # Platta uses mSECRET_KEY as the name for the variable.
     mSECRET_KEY=(str, ""),
     ALLOWED_HOSTS=(list, ["deviceregistry", "localhost", "127.0.0.1", "[::1]"]),
+    CSRF_TRUSTED_ORIGINS=(list, ["https://deviceregistry"]),
     DJANGO_DB_NAME=(str, "postgres"),
     DJANGO_DB_USER=(str, "postgres"),
     DJANGO_DB_PASSWORD=(str, "postgres"),
@@ -42,6 +43,7 @@ SECRET_KEY = env("mSECRET_KEY") or env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS")
+CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
 
 # Application definition
 
