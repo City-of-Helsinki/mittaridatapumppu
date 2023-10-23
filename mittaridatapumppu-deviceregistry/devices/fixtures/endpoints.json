@@ -9,7 +9,7 @@
     "host_name": "localhost",
     "ip_address": "127.0.0.1",
     "description": "",
-    "notification_url": "http://localhost:8001/nofity"
+    "notification_url": "http://localhost:8001/notify"
   }
 },
 {
