@@ -19,8 +19,9 @@ ENV DJANGO_DB_HOST=db
 ENV DJANGO_DB_PORT=5432
 
 # Device registry config
-ENV MEDIA_ROOT=/media
 ENV DJANGO_SETTINGS_MODULE=deviceregistry.settings
+ENV MEDIA_ROOT=/media
+ENV STATIC_ROOT=/static
 
 COPY entrypoint.sh /
 
@@ -43,6 +44,8 @@ COPY --chown=app:app mittaridatapumppu-deviceregistry/ .
 # Support Arbitrary User IDs
 RUN chgrp -R 0 /home/app && \
   chmod -R g+rwX /home/app
+
+RUN python manage.py collectstatic --noinput
 
 USER app
 
