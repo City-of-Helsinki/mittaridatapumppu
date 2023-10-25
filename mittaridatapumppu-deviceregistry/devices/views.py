@@ -37,6 +37,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = User.objects.all().order_by("-date_joined")
     lookup_field = "username"  # Use username instead of pk
+    lookup_value_regex = r"[\w.@+-]+"  # Allow dots in username
     serializer_class = UserSerializer
     permission_classes = [permissions.DjangoModelPermissions]
     authentication_classes = [
