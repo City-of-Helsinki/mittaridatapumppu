@@ -73,7 +73,7 @@ class DeviceSerializer(serializers.HyperlinkedModelSerializer):
             "measurement_resolution",
             "quality_indicator",
             "equipment_condition",
-            "owner",
+            # "owner",
             # "organization",
             "parser_module",
             "properties",
@@ -84,7 +84,7 @@ class DeviceSerializer(serializers.HyperlinkedModelSerializer):
         extra_kwargs = {
             "url": {"lookup_field": "device_id"},
             "type": {"lookup_field": "slug"},
-            "owner": {"lookup_field": "username"},
+            # "owner": {"lookup_field": "username"},
             "current_location": {"lookup_field": "slug"},
             # "organization": {"lookup_field": "slug"},
         }
