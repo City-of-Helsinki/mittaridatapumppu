@@ -1,4 +1,7 @@
+import datetime
+
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 from rest_framework import permissions
 from rest_framework import viewsets
 from rest_framework.authentication import (
@@ -28,6 +31,15 @@ from .serializers import (
     StreamProcessorSerializer,
     UserSerializer,
 )
+
+
+def index(request):
+    """
+    Return a simple JSON response with the current time.
+    """
+    now = datetime.datetime.now(datetime.timezone.utc)
+    ok_msg = {"status": "ok", "time": now.isoformat()}
+    return JsonResponse(ok_msg, status=200)
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
