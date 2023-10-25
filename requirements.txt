@@ -6,6 +6,8 @@
 #
 asgiref==3.7.2
     # via django
+certifi==2023.7.22
+    # via sentry-sdk
 click==8.1.7
     # via uvicorn
 django==4.2.6
@@ -13,6 +15,7 @@ django==4.2.6
     #   django-auditlog
     #   djangorestframework
     #   mittaridatapumppu-deviceregistry (pyproject.toml)
+    #   sentry-sdk
 django-auditlog==2.3.0
     # via mittaridatapumppu-deviceregistry (pyproject.toml)
 django-environ==0.11.2
@@ -37,7 +40,7 @@ pluggy==1.3.0
     # via pytest
 psycopg2-binary==2.9.9
     # via mittaridatapumppu-deviceregistry (pyproject.toml)
-pytest==7.4.2
+pytest==7.4.3
     # via
     #   mittaridatapumppu-deviceregistry (pyproject.toml)
     #   pytest-django
@@ -47,6 +50,8 @@ python-dateutil==2.8.2
     # via django-auditlog
 pytz==2023.3.post1
     # via djangorestframework
+sentry-sdk[django]==1.32.0
+    # via mittaridatapumppu-deviceregistry (pyproject.toml)
 six==1.16.0
     # via python-dateutil
 sqlparse==0.4.4
@@ -55,6 +60,8 @@ sqlparse==0.4.4
     #   mittaridatapumppu-deviceregistry (pyproject.toml)
 unittest-parametrize==1.4.0
     # via mittaridatapumppu-deviceregistry (pyproject.toml)
+urllib3==2.0.7
+    # via sentry-sdk
 uvicorn==0.23.2
     # via mittaridatapumppu-deviceregistry (pyproject.toml)
 whitenoise==6.6.0

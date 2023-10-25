@@ -9,14 +9,16 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import sys
 from pathlib import Path
 
 import environ
+import sentry_sdk
 
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False),
+    SENTRY_DSN=(str, ""),
     SECRET_KEY=(str, "django-insecure-vz&7byj9esv1ncrv(7805g7w%h+-(-k_q82q(woh%1pcxr)^jf"),
     # Platta uses mSECRET_KEY as the name for the variable.
     mSECRET_KEY=(str, ""),
@@ -26,8 +28,16 @@ env = environ.Env(
     DJANGO_DB_USER=(str, "postgres"),
     DJANGO_DB_PASSWORD=(str, "postgres"),
     DJANGO_DB_HOST=(str, "db"),
-    DJANGO_DB_PORT=(str, 5432)
+    DJANGO_DB_PORT=(str, 5432),
 )
+
+
+if env("SENTRY_DSN"):
+    print("Initializing sentry: {}".format(env("SENTRY_DSN")))
+    sentry_sdk.init(dsn=env("SENTRY_DSN"))
+else:
+    print("Initializing sentry: SENTRY_DSN is not set!")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -104,18 +114,6 @@ DATABASES = {
         "PORT": env("DJANGO_DB_PORT"),
     }
 }
-# if env("DATABASE_LOCAL", default=False):
-#     # Temp database for development
-#     DATABASES = {
-#         "default": {
-#             "ENGINE": "django.contrib.gis.db.backends.postgis",
-#             "NAME": "deviceregistry",
-#             # "USER": env("DJANGO_DB_USER", default="postgres"),
-#             # "PASSWORD": env("DJANGO_DB_PASSWORD", default="postgres"),
-#             # "HOST": env("DJANGO_DB_HOST", default="db"),
-#             # "PORT": env("DJANGO_DB_PORT", default=5432),
-#         }
-#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -163,4 +161,24 @@ MEDIA_URL = env("MEDIA_URL", default="/media/")
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 50,
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
+        },
+    },
+    "handlers": {
+        "console": {"level": "INFO", "class": "logging.StreamHandler", "stream": sys.stdout, "formatter": "verbose"},
+    },
+    "loggers": {
+        "": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
 }
