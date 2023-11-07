@@ -16,7 +16,7 @@ dependencies = [
   "Django >= 4.2.6, < 5.0",
   "django-auditlog",
   "django-environ",
-  "django-rest-framework",
+  "djangorestframework",
   "openpyxl",
   "Pillow",
   "psycopg2-binary",
