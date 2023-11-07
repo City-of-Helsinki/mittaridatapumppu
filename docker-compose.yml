@@ -27,7 +27,7 @@ services:
   parser-digita:
     image: ghcr.io/city-of-helsinki/mittaridatapumppu-parser:latest
     build: ./mittaridatapumppu-parser
-    container_name: parser-digita
+    container_name: parser
     depends_on:
       kafka:
         condition: service_healthy
@@ -38,10 +38,9 @@ services:
       # Kafka client config
       KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
       KAFKA_GROUP_ID: "digita_dev"
-      KAFKA_PARSED_DATA_TOPIC_NAME: "digita.parseddata"
-      KAFKA_RAW_DATA_TOPIC_NAME: "digita.rawdata"
       # Parser config
       DEVICE_REGISTRY_URL: "http://deviceregistry:8000/api/v1"
+      DEVICE_REGISTRY_ENDPOINTS_URL: "http://deviceregistry:8000/api/v1/hosts/localhost/"
       DEVICE_REGISTRY_TOKEN: abcdef1234567890abcdef1234567890abcdef12
       # Debug config
       DEBUG: 1
