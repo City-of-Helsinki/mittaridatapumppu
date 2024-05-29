@@ -1,4 +1,4 @@
-name: Build and push deviceregistry image
+name: Build and push persister image
 
 on:
   push:
@@ -7,12 +7,12 @@ on:
     # Publish semver tags as releases.
     tags:
       - 'v*.*.*'
-    paths_ignore:
-      - 'mittaridatapumppu-*/**'
+    paths:
+      - 'mittaridatapumppu-persister/**'
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-deviceregistry
+  IMAGE_NAME: ${{ github.repository }}-persister
 
 jobs:
   build-and-push:
@@ -53,7 +53,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: mittaridatapumppu-persister
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
