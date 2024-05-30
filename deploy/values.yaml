@@ -15,10 +15,7 @@ endpoint:
     type: ClusterIP
     port: 80
   allowedIpAddresses: 127.0.0.1
-  authToken: abcd1234
-  dataSourceName: "digita.thingpark.http"
-  endpointPath: "/digita/v2"
-  httpRequestHandler: "endpoints.digita.aiothingpark"
+  endpointConfigUrl: http://deviceregistry:8000/api/v1/hosts/localhost/
 
 deviceregistry:
   replicaCount: 1
@@ -31,6 +28,7 @@ deviceregistry:
   service:
     type: ClusterIP
     port: 80
+  djangoSettingsModule: "deviceregistry.settings"
   databaseHost: "postgresql"
   databaseUser: "postgres"
   databasePassword: "postgres"
@@ -52,6 +50,24 @@ parser:
     port: 80
   deviceRegistryUrl: "http://deviceregistry/api/v1"
   deviceRegistryToken: "1e172012b4404fc4b3d051710f8232a422fa8eaa"
+
+persister:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/city-of-helsinki/mittaridatapumppu-persister
+    # pullPolicy: IfNotPresent
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "v0.1.1"
+  service:
+    type: ClusterIP
+    port: 80
+  deviceRegistryUrl: "http://deviceregistry/api/v1"
+  deviceRegistryToken: "1e172012b4404fc4b3d051710f8232a422fa8eaa"
+  influxBucket: "devbucket"
+  influxHost: "http://influxdb2:8086"
+  influxOrg: "Development"
+  influxToken: "insercure-token-for-development-and-testing-purposes-only-KxU4jAU23H3vTk"
 
 kafka:
   kafkaHost: "kafka-kafka-bootstrap"
