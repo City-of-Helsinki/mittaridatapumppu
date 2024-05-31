@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/ForumViriumHelsinki/mittaridatapumppu/compare/v0.2.0...v0.2.1) (2024-05-31)
+
+
+### Bug Fixes
+
+* remove debug options from configmap template ([474b210](https://github.com/ForumViriumHelsinki/mittaridatapumppu/commit/474b21084c5c655b738411cb42b1b83bd395704c))
+
 ## [0.2.0](https://github.com/ForumViriumHelsinki/mittaridatapumppu/compare/v0.1.1...v0.2.0) (2024-05-31)
 
 
