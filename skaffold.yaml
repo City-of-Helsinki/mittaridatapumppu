@@ -1,0 +1,12 @@
+apiVersion: skaffold/v4beta10
+kind: Config
+metadata:
+  name: fvh-mittaridatapumppu
+deploy:
+  helm:
+    releases:
+      - name: mittaridatapumppu
+        chartPath: deploy
+        valuesFiles:
+          - deploy/values.yaml
+        version: 0.1.0
