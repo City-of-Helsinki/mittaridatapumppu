@@ -23,5 +23,3 @@ data:
   INFLUX_HOST: "{{ .Values.persister.influxHost }}"
   INFLUX_ORG: "{{ .Values.persister.influxOrg }}"
   INFLUX_TOKEN: "{{ .Values.persister.influxToken }}"
-  DEBUG: 1
-  UVICORN_LOG_LEVEL: "debug"
