@@ -30,6 +30,7 @@ deviceregistry:
     port: 80
   djangoSettingsModule: "deviceregistry.settings"
   databaseHost: "postgresql"
+  databaseName: "mittaridatapumppu-deviceregistry"
   databaseUser: "postgres"
   databasePassword: "postgres"
   databasePort: "5432"
