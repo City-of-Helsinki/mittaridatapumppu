@@ -1,4 +1,7 @@
 *
-!mittaridatapumppu-deviceregistry
+!deviceregistry
+!devices
+!endpoints
+!manage.py
 !requirements.txt
 !entrypoint.sh
