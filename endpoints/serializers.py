@@ -3,8 +3,6 @@ from rest_framework import serializers
 from .models import Host, Endpoint
 
 
-
-
 class EndpointSerializer(serializers.ModelSerializer):
     class Meta:
         model = Endpoint
@@ -15,6 +13,7 @@ class EndpointSerializer(serializers.ModelSerializer):
 
 class HostSerializer(serializers.ModelSerializer):
     endpoints = EndpointSerializer(many=True, read_only=True)
+
     class Meta:
         model = Host
         lookup_field = "slug"  # Use slug instead of pk

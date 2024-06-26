@@ -39,7 +39,7 @@ WORKDIR /home/app
 COPY --chown=app:app requirements.txt .
 RUN pip install --no-cache-dir --no-compile --upgrade -r requirements.txt
 
-COPY --chown=app:app mittaridatapumppu-deviceregistry/ .
+COPY --chown=app:app . .
 
 # Support Arbitrary User IDs
 RUN chgrp -R 0 /home/app && \
