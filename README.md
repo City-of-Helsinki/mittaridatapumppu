@@ -15,6 +15,10 @@ The following repositories contain the services for the data pipeline shown in d
 Go To [test set up](tests/README.md)
 
 ```
+pip install pre-commit
+pre-commit install
 pip-compile
 pip-compile --extra dev --output-file requirements-dev.txt
+pip-sync
+pre-commit run --all-files
 ```

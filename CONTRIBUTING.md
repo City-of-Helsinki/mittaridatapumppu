@@ -90,6 +90,7 @@ curl http://127.0.0.1:8000/api/v1/devices/70B3D57050011422/ -H "Authorization:To
 ```shell
 python mittaridatapumppu-endpoint/tests/test_api2.py
 ```
+docker run --rm -e API_BASE_URL -e API_TOKEN ghcr.io/city-of-helsinki/mittaridatapumppu-endpoint python tests/test_api2.py
 
 Check docker logs what happens.
 
